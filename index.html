@@ -180,6 +180,13 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
       <div id="admScreenPreview"></div>
       <a class="btn secondary" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="/screen" target="_blank">ABRIR /SCREEN ↗</a>
     </div>
+    <div class="card" style="border-color:#d9b0aa">
+      <div class="ey" style="color:#9a4038">Mantenimiento</div>
+      <h2 style="margin-bottom:6px">Dejar el juego en cero</h2>
+      <p class="lead" style="margin-top:0">Para después de las pruebas y para el día previo a la boda. Borra respuestas de Trivia, envíos y aprobaciones de Misiones, y vuelve todos los puntajes a <b>0</b>.</p>
+      <div class="notice rejected"><b>No toca</b> las mesas, los QR, las preguntas, las misiones ni los participantes registrados.</div>
+      <button class="btn danger" style="margin-top:12px" onclick="resetGameAdmin()">🧹 RESETEAR TRIVIA + MISIONES + PUNTAJES</button>
+    </div>
   </div>
 </section>
 </main>
@@ -250,7 +257,16 @@ async function loadScreenControl(){
   renderScreenControls();renderScreen();renderAdminScreenPreview()
 }
 async function loadTrivia(){
-  let {data}=await db.rpc('get_live_trivia');if(data)live=data;
+  let {data}=await db.rpc('get_live_trivia');
+  if(data){
+    const incomingVersion=String(data.game_version??'');
+    const savedVersion=localStorage.getItem('game_version');
+    if(incomingVersion && savedVersion && incomingVersion!==savedVersion){
+      Object.keys(localStorage).filter(k=>k.startsWith('q_')).forEach(k=>localStorage.removeItem(k));
+    }
+    if(incomingVersion)localStorage.setItem('game_version',incomingVersion);
+    live=data;
+  }
   renderTrivia();renderHome();renderScreen();renderAdmin()
 }
 async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia(),loadScreenMission(),loadScreenControl()])}
@@ -434,6 +450,20 @@ async function adminAction(a,id=null){
   let {error}=await db.rpc('admin_trivia_action',{p_admin_key:sessionStorage.getItem('ak'),p_action:a,p_question_id:id});
   if(error)return toast('Error de control');
   await Promise.all([adminRefresh(),loadTables(),loadTrivia()])
+}
+
+async function resetGameAdmin(){
+  const first=confirm('Esto va a borrar TODAS las respuestas de Trivia, TODAS las Misiones enviadas/aprobadas y va a poner los puntajes de las 7 mesas en 0.\n\nLas mesas, QR, preguntas, misiones y participantes se conservan.\n\n¿Querés seguir?');
+  if(!first)return;
+  const typed=prompt('Para confirmar, escribí RESET');
+  if((typed||'').trim().toUpperCase()!=='RESET')return toast('Reset cancelado');
+  const {data,error}=await db.rpc('admin_reset_game',{p_admin_key:sessionStorage.getItem('ak')});
+  if(error)return toast('No pudimos resetear');
+  Object.keys(localStorage).filter(k=>k.startsWith('q_')).forEach(k=>localStorage.removeItem(k));
+  if(data?.game_version!=null)localStorage.setItem('game_version',String(data.game_version));
+  clearMissionSelection();
+  await Promise.all([adminRefresh(),loadTables(),loadTrivia(),loadMission(),loadScreenMission(),loadScreenControl()]);
+  toast('Juego en cero ✓');
 }
 
 function renderMissionAdmin(){
