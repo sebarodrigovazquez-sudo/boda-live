@@ -16,6 +16,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
 .btn{border:0;background:var(--i);color:white;font-weight:800}.btn.secondary{background:#fff;color:var(--i);border:1px solid var(--l)}.btn.gold{background:var(--g)}.btn.danger{background:#9a4038}
 .feature{background:var(--d);color:white;border-radius:28px;padding:22px;margin:16px 0}.feature p{color:#cfc7bf}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .now-head{font-size:10px;letter-spacing:.16em;font-weight:900;text-transform:uppercase;color:#d3b075;margin-bottom:8px}.now-item{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:13px 0;border-top:1px solid #ffffff20}.now-item:first-of-type{border-top:0}.now-icon{font-size:24px}.now-copy b{display:block;font-size:15px}.now-copy span{display:block;color:#cfc7bf;font-size:11px;line-height:1.35;margin-top:2px}.now-btn{border:0;background:#fff;color:#181511;border-radius:12px;padding:10px 11px;font-size:10px;font-weight:900;white-space:nowrap}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.photo-card{background:#fff;border:1px solid var(--l);border-radius:16px;overflow:hidden}.photo-card img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#eee4d8}.photo-meta{padding:9px 10px}.photo-meta b{display:block;font-size:11px}.photo-meta span{display:block;font-size:10px;color:var(--m);margin-top:2px}.photo-admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.photo-admin-card{border:1px solid var(--l);border-radius:16px;padding:10px;background:#fff}.photo-admin-card img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:11px;background:#eee4d8}.photo-admin-card .btn{padding:10px;border-radius:12px;font-size:10px;margin-top:7px}.photo-upload-preview{display:block;width:100%;max-height:420px;object-fit:contain;border-radius:18px;background:#efe7dd;margin:14px 0}.photo-count{font-family:Georgia,serif;font-size:28px;font-weight:400}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.tile{min-height:100px;border:1px solid var(--l);background:var(--c);border-radius:20px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}.tile span{font-size:24px}
 .head{display:flex;gap:12px;align-items:center}.back{width:42px;height:42px;border-radius:50%;border:1px solid var(--l);background:white}
 .choice{width:100%;padding:14px;border:1px solid var(--l);background:white;border-radius:15px;text-align:left;margin-top:8px}.choice.correct{background:#edf6ef}.choice.wrong{background:#faefed}
@@ -102,6 +103,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
   <div class="grid" style="margin-top:12px">
     <button class="tile" onclick="show('trivia')"><span>🧠</span><b>TRIVIA</b></button>
     <button class="tile" onclick="show('mission')"><span>📸</span><b>MISIONES</b></button>
+    <button class="tile" onclick="show('photos')"><span>🖼️</span><b>FOTOS</b></button>
     <button class="tile" onclick="show('ranking')"><span>🏆</span><b>RANKING</b></button>
     <button class="tile" onclick="show('signatures')"><span>✍️</span><b>FIRMAS</b></button>
     <button class="tile" onclick="show('music')"><span>🎵</span><b>MÚSICA</b></button>
@@ -114,6 +116,21 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
   <div class="head"><button class="back" onclick="show('home')">←</button><h1>Misiones</h1></div>
   <div id="missionBody"></div>
   <input id="missionFile" type="file" accept="image/*" class="hidden" onchange="missionFileChosen(event)">
+</section>
+
+<section id="photos" class="hidden">
+  <div class="head"><button class="back" onclick="show('home')">←</button><h1>Fotos</h1></div>
+  <div class="card">
+    <div class="ey">El álbum de la noche</div>
+    <h2>Subí las que valen la pena.</h2>
+    <p class="lead">Las demás dejalas morir en tu carrete.</p>
+    <div id="weddingPhotoUpload"></div>
+    <input id="weddingPhotoFile" type="file" accept="image/*" class="hidden" onchange="weddingPhotoFileChosen(event)">
+  </div>
+  <div class="card">
+    <div class="row"><div><div class="ey">Galería</div><h2 style="margin:5px 0">Las que ya pasaron el filtro</h2></div><div style="text-align:right"><div id="weddingPhotoCount" class="photo-count">0</div><div class="small">aprobadas</div></div></div>
+    <div id="weddingPhotoGallery"></div>
+  </div>
 </section>
 
 <section id="ranking" class="hidden"><div class="head"><button class="back" onclick="show('home')">←</button><h1>Copa de las mesas</h1></div><div id="scores" class="card"></div></section>
@@ -167,6 +184,16 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
       <div id="admApproved"></div>
     </div>
     <div class="card">
+      <div class="ey">Álbum de la boda</div>
+      <h2 style="margin-bottom:6px">Fotos por aprobar <span id="admWeddingPendingBadge" class="badge">0</span></h2>
+      <p class="lead" style="margin-top:0">Acá moderás las fotos espontáneas del álbum. No suman puntos.</p>
+      <div id="admWeddingPending"></div>
+      <h2 style="margin:22px 0 6px">Aprobadas</h2>
+      <div id="admWeddingApproved"></div>
+      <h2 style="margin:22px 0 6px">Ocultas</h2>
+      <div id="admWeddingHidden"></div>
+    </div>
+    <div class="card">
       <div class="ey">Pantalla del salón</div>
       <h2>Control de pantalla</h2>
       <div class="screen-controls">
@@ -180,6 +207,13 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
       <h2 style="margin-bottom:4px">Vista previa</h2>
       <div id="admScreenPreview"></div>
       <a class="btn secondary" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="/screen" target="_blank">ABRIR /SCREEN ↗</a>
+    </div>
+    <div class="card" style="border-color:#d9b0aa">
+      <div class="ey" style="color:#9a4038">Mantenimiento · Fotos</div>
+      <h2 style="margin-bottom:6px">Vaciar el álbum</h2>
+      <p class="lead" style="margin-top:0">Pensado para borrar las fotos de prueba antes de la boda. Elimina pendientes, aprobadas y ocultas del álbum.</p>
+      <div class="notice rejected"><b>No toca</b> las fotos de Misiones ni ningún puntaje.</div>
+      <button class="btn danger" style="margin-top:12px" onclick="deleteAllWeddingPhotosAdmin()">🗑️ BORRAR TODAS LAS FOTOS</button>
     </div>
     <div class="card" style="border-color:#d9b0aa">
       <div class="ey" style="color:#9a4038">Mantenimiento</div>
@@ -208,7 +242,7 @@ const db=supabase.createClient(
   {auth:{persistSession:false}}
 );
 const tm={QP7K2M:'Quiubo pues',QK9R4X:'Qué quilombo',MG6T8P:'Merequetengue',AM3V7N:'Asu mare',AF8C5L:'Alta fiesta',NT4J9B:'No sea toche',LR2H6S:'La raja po'};
-let board=[],mission=null,screenMission={status:'idle'},screenControl={mode:'auto',gallery:[],last_trivia:null},live={status:'idle'},dash=null,mdash=null,chs=[],selectedMissionFile=null,selectedMissionUrl=null,missionUploading=false,screenPhotoIndex=0,galleryPhotoIndex=0,screenCarousel=null,screenAutoPhoto=false,adminPoller=null;
+let board=[],mission=null,screenMission={status:'idle'},screenControl={mode:'auto',gallery:[],wedding_gallery:[],last_trivia:null},live={status:'idle'},dash=null,mdash=null,photoDash=null,photoGallery=[],chs=[],selectedMissionFile=null,selectedMissionUrl=null,missionUploading=false,selectedWeddingPhotoFile=null,selectedWeddingPhotoUrl=null,weddingPhotoUploading=false,screenPhotoIndex=0,galleryPhotoIndex=0,screenCarousel=null,screenAutoPhoto=false,screenAutoAlbum=false,adminPoller=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
@@ -216,11 +250,12 @@ function code(){let a=location.pathname.split('/').filter(Boolean).pop()?.toUppe
 function gid(){return localStorage.getItem('gid')}
 function sec(){return localStorage.getItem('gsec')}
 function show(id){
-  ['join','home','trivia','mission','ranking','signatures','music','dj','admin'].forEach(x=>$(x).classList.toggle('hidden',x!==id));
+  ['join','home','trivia','mission','photos','ranking','signatures','music','dj','admin'].forEach(x=>$(x).classList.toggle('hidden',x!==id));
   $('nav').classList.toggle('hidden',id==='join'||id==='admin');
   if(id==='trivia')renderTrivia();
   if(id==='ranking')renderRank();
   if(id==='mission')loadMission();
+  if(id==='photos')loadWeddingPhotos();
 }
 function toast(t){$('toast').textContent=t;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2200)}
 
@@ -253,9 +288,14 @@ async function loadScreenMission(){
 }
 async function loadScreenControl(){
   let {data,error}=await db.rpc('get_screen_control');
-  screenControl=error?{mode:'auto',gallery:[]}:(data||{mode:'auto',gallery:[]});
-  const n=(screenControl.gallery||[]).length;if(n && galleryPhotoIndex>=n)galleryPhotoIndex=0;
+  screenControl=error?{mode:'auto',gallery:[],wedding_gallery:[]}:(data||{mode:'auto',gallery:[],wedding_gallery:[]});
+  const n=(screenControl.wedding_gallery||[]).length;if(n && galleryPhotoIndex>=n)galleryPhotoIndex=0;
   renderScreenControls();renderScreen();renderAdminScreenPreview()
+}
+async function loadWeddingPhotos(){
+  let {data,error}=await db.rpc('get_wedding_photo_gallery');
+  photoGallery=error?[]:(data||[]);
+  renderWeddingPhotos()
 }
 async function loadTrivia(){
   let {data}=await db.rpc('get_live_trivia');
@@ -270,7 +310,7 @@ async function loadTrivia(){
   }
   renderTrivia();renderHome();renderScreen();renderAdmin()
 }
-async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia(),loadScreenMission(),loadScreenControl()])}
+async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia(),loadScreenMission(),loadScreenControl(),loadWeddingPhotos()])}
 
 function renderHome(){
   let tid=localStorage.getItem('tid'),own=board.find(x=>x.id===tid),i=board.findIndex(x=>x.id===tid);
@@ -390,6 +430,54 @@ async function uploadMissionPhoto(){
   clearMissionSelection();await loadMission();toast('Foto enviada para aprobación ✓')
 }
 
+
+function weddingPhotoUrl(path){
+  if(!path)return '';
+  return db.storage.from('wedding-photos').getPublicUrl(path).data.publicUrl
+}
+function clearWeddingPhotoSelection(){
+  selectedWeddingPhotoFile=null;
+  if(selectedWeddingPhotoUrl){URL.revokeObjectURL(selectedWeddingPhotoUrl);selectedWeddingPhotoUrl=null}
+  if($('weddingPhotoFile'))$('weddingPhotoFile').value=''
+}
+function renderWeddingPhotos(){
+  const up=$('weddingPhotoUpload'),gal=$('weddingPhotoGallery'),count=$('weddingPhotoCount');
+  if(count)count.textContent=photoGallery.length;
+  if(up){
+    if(selectedWeddingPhotoUrl){
+      up.innerHTML=`<img class="photo-upload-preview" src="${selectedWeddingPhotoUrl}" alt="Vista previa"><button class="btn" onclick="uploadWeddingPhoto()" ${weddingPhotoUploading?'disabled':''}>${weddingPhotoUploading?'SUBIENDO…':'SUBIR ESTA FOTO'}</button><button class="btn secondary" style="margin-top:8px" onclick="$('weddingPhotoFile').click()" ${weddingPhotoUploading?'disabled':''}>CAMBIAR FOTO</button>`;
+    }else{
+      up.innerHTML=`<button class="btn" onclick="$('weddingPhotoFile').click()">📷 SUBIR FOTO</button><p class="small" style="text-align:center;margin-bottom:0">Podés subir todas las que quieras durante la noche. Aparecen en la galería cuando las aprobemos.</p>`;
+    }
+  }
+  if(gal){
+    if(!photoGallery.length){gal.innerHTML='<p class="lead">Todavía no hay fotos aprobadas. Alguien tiene que romper el hielo.</p>';return}
+    gal.innerHTML=`<div class="photo-grid">${photoGallery.map(p=>`<div class="photo-card"><img src="${weddingPhotoUrl(p.photo_path)}" alt="Foto de ${esc(p.guest_name)}"><div class="photo-meta"><b>${esc(p.table_name)}</b><span>Subió ${esc(p.guest_name)}</span></div></div>`).join('')}</div>`;
+  }
+}
+function weddingPhotoFileChosen(ev){
+  const f=ev.target.files?.[0];if(!f)return;
+  const mime=normalizeMime(f);
+  if(!mime){ev.target.value='';return toast('Usá una foto JPG, PNG, WEBP o HEIC')}
+  if(f.size>20*1024*1024){ev.target.value='';return toast('La foto supera 20 MB')}
+  clearWeddingPhotoSelection();selectedWeddingPhotoFile=f;selectedWeddingPhotoUrl=URL.createObjectURL(f);renderWeddingPhotos()
+}
+async function uploadWeddingPhoto(){
+  if(!selectedWeddingPhotoFile||weddingPhotoUploading)return;
+  if(!gid()||!sec())return toast('Volvé a entrar desde el QR de tu mesa');
+  weddingPhotoUploading=true;renderWeddingPhotos();
+  const mime=normalizeMime(selectedWeddingPhotoFile);
+  const {data:start,error:startErr}=await db.rpc('start_wedding_photo_upload',{p_guest_id:gid(),p_guest_secret:sec(),p_mime_type:mime});
+  if(startErr){weddingPhotoUploading=false;renderWeddingPhotos();return toast('No pudimos iniciar la carga')}
+  const {error:upErr}=await db.storage.from(start.bucket).upload(start.path,selectedWeddingPhotoFile,{cacheControl:'3600',upsert:false,contentType:mime});
+  if(upErr){weddingPhotoUploading=false;renderWeddingPhotos();return toast('Falló la subida. Probá de nuevo')}
+  const {error:finishErr}=await db.rpc('finish_wedding_photo_upload',{p_guest_id:gid(),p_guest_secret:sec(),p_photo_id:start.photo_id});
+  weddingPhotoUploading=false;
+  if(finishErr){renderWeddingPhotos();return toast('La foto subió, pero faltó confirmar')}
+  clearWeddingPhotoSelection();renderWeddingPhotos();toast('Foto enviada para aprobación ✓');
+  if(sessionStorage.getItem('ak'))await adminRefresh({silent:true})
+}
+
 function renderRank(){
   $('scores').innerHTML=board.map((r,i)=>`<div class="score"><span>${i+1}</span><b>${i<3?['🥇 ','🥈 ','🥉 '][i]:''}${esc(r.name)}</b><b>${r.points}</b></div>`).join('')
 }
@@ -398,12 +486,13 @@ async function adminLogin(){sessionStorage.setItem('ak',$('akey').value.trim());
 async function adminRefresh(opts={}){
   let k=sessionStorage.getItem('ak');if(!k)return false;
   const silent=!!opts.silent;
-  const [tr,ms]=await Promise.all([
+  const [tr,ms,ph]=await Promise.all([
     db.rpc('admin_trivia_dashboard',{p_admin_key:k}),
-    db.rpc('admin_mission_overview',{p_admin_key:k})
+    db.rpc('admin_mission_overview',{p_admin_key:k}),
+    db.rpc('admin_wedding_photo_dashboard',{p_admin_key:k})
   ]);
-  if(tr.error||ms.error){
-    const msg=[tr.error?.message,ms.error?.message].filter(Boolean).join(' · ');
+  if(tr.error||ms.error||ph.error){
+    const msg=[tr.error?.message,ms.error?.message,ph.error?.message].filter(Boolean).join(' · ');
     if(/invalid admin key/i.test(msg)){
       sessionStorage.removeItem('ak');
       $('alog').classList.remove('hidden');$('ap').classList.add('hidden');
@@ -411,7 +500,7 @@ async function adminRefresh(opts={}){
     }else if(!silent)toast('No pudimos actualizar el panel');
     return false;
   }
-  dash=tr.data;mdash=ms.data;$('alog').classList.add('hidden');$('ap').classList.remove('hidden');renderAdmin();return true
+  dash=tr.data;mdash=ms.data;photoDash=ph.data;$('alog').classList.add('hidden');$('ap').classList.remove('hidden');renderAdmin();return true
 }
 function startAdminAutoRefresh(){
   if(adminPoller)clearInterval(adminPoller);
@@ -421,7 +510,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&sessionSt
 window.addEventListener('focus',()=>{if(sessionStorage.getItem('ak'))adminRefresh({silent:true})});
 function renderAdmin(){
   if(!dash||!$('ap'))return;
-  renderTriviaAdmin();renderMissionAdmin();renderScreenControls();renderAdminScreenPreview()
+  renderTriviaAdmin();renderMissionAdmin();renderWeddingPhotoAdmin();renderScreenControls();renderAdminScreenPreview()
 }
 function renderTriviaAdmin(){
   const state=dash.state||{},questions=dash.questions||[],status=state.status||'idle';
@@ -568,26 +657,74 @@ function renderMissionAdmin(){
     }).join(''):'<p class="lead">Todavía no aprobaste ninguna misión.</p>';
   }
 }
+
+function renderWeddingPhotoAdmin(){
+  if(!photoDash)return;
+  const pending=photoDash.pending||[],approved=photoDash.approved||[],hidden=photoDash.hidden||[];
+  if($('admWeddingPendingBadge'))$('admWeddingPendingBadge').textContent=pending.length;
+  if($('admWeddingPending')){
+    $('admWeddingPending').innerHTML=pending.length?`<div class="photo-admin-grid">${pending.map(p=>`<div class="photo-admin-card"><img src="${weddingPhotoUrl(p.photo_path)}" alt="Foto pendiente"><div class="small" style="margin-top:7px"><b>${esc(p.table_name)}</b><br>Subió ${esc(p.guest_name)}</div><button class="btn" onclick="weddingPhotoAdminAction('approve',${p.id})">✅ APROBAR</button><button class="btn danger" onclick="weddingPhotoAdminAction('hide',${p.id})">✕ OCULTAR</button></div>`).join('')}</div>`:'<p class="lead">No hay fotos pendientes. Todo al día ✓</p>';
+  }
+  if($('admWeddingApproved')){
+    $('admWeddingApproved').innerHTML=approved.length?`<div class="photo-admin-grid">${approved.slice(0,12).map(p=>`<div class="photo-admin-card"><img src="${weddingPhotoUrl(p.photo_path)}" alt="Foto aprobada"><div class="small" style="margin-top:7px"><b>${esc(p.table_name)}</b><br>${esc(p.guest_name)}</div><button class="btn secondary" onclick="weddingPhotoAdminAction('hide',${p.id})">OCULTAR</button></div>`).join('')}</div>`:'<p class="lead">Todavía no aprobaste fotos del álbum.</p>';
+  }
+  if($('admWeddingHidden')){
+    $('admWeddingHidden').innerHTML=hidden.length?`<div class="photo-admin-grid">${hidden.slice(0,12).map(p=>`<div class="photo-admin-card"><img src="${weddingPhotoUrl(p.photo_path)}" alt="Foto oculta"><div class="small" style="margin-top:7px"><b>${esc(p.table_name)}</b><br>${esc(p.guest_name)}</div><button class="btn secondary" onclick="weddingPhotoAdminAction('restore',${p.id})">↩ RESTAURAR</button></div>`).join('')}</div>`:'<p class="small">No hay fotos ocultas.</p>';
+  }
+}
+async function weddingPhotoAdminAction(action,id){
+  const {error}=await db.rpc('admin_wedding_photo_action',{p_admin_key:sessionStorage.getItem('ak'),p_action:action,p_photo_id:id});
+  if(error)return toast('No pudimos actualizar esa foto');
+  await Promise.all([adminRefresh({silent:true}),loadWeddingPhotos(),loadScreenControl()]);
+  toast(action==='approve'?'Foto aprobada ✓':action==='restore'?'Foto restaurada':'Foto oculta')
+}
+async function deleteAllWeddingPhotosAdmin(){
+  const total=(photoDash?.pending?.length||0)+(photoDash?.approved?.length||0)+(photoDash?.hidden?.length||0);
+  const first=confirm(`Esto va a borrar TODAS las fotos del álbum${total?` (${total} visibles en el panel)`:''}.\n\nNo toca las fotos de Misiones, Trivia ni puntajes.\n\n¿Querés seguir?`);
+  if(!first)return;
+  const typed=prompt('Para confirmar, escribí BORRAR');
+  if((typed||'').trim().toUpperCase()!=='BORRAR')return toast('Borrado cancelado');
+  const key=sessionStorage.getItem('ak');
+  const {data:prep,error:prepErr}=await db.rpc('admin_prepare_delete_all_wedding_photos',{p_admin_key:key});
+  if(prepErr)return toast('No pudimos preparar el borrado');
+  const paths=prep?.paths||[];
+  if(paths.length){
+    for(let i=0;i<paths.length;i+=1000){
+      const {error}=await db.storage.from('wedding-photos').remove(paths.slice(i,i+1000));
+      if(error){console.error('Photo delete error',error);return toast('Falló el borrado de archivos. Reintentá');}
+    }
+  }
+  const {error:finErr}=await db.rpc('admin_finalize_delete_all_wedding_photos',{p_admin_key:key});
+  if(finErr)return toast('Los archivos se borraron, pero faltó limpiar el registro');
+  clearWeddingPhotoSelection();
+  await Promise.all([adminRefresh({silent:true}),loadWeddingPhotos(),loadScreenControl()]);
+  toast('Álbum vacío ✓')
+}
+
 function renderScreenControls(){
   const mode=screenControl?.mode||'auto';
   ['auto','ranking','mission','photos','trivia'].forEach(m=>{const e=$('sm-'+m);if(e)e.classList.toggle('active',m===mode)})
 }
 async function screenAdminAction(mode){
   const {error}=await db.rpc('admin_screen_action',{p_admin_key:sessionStorage.getItem('ak'),p_mode:mode});
-  if(error)return toast('No pudimos cambiar la pantalla');
+  if(error){
+    if(mode==='photos'&&/trivia active/i.test(error.message||''))return toast('Con Trivia activa no mostramos fotos');
+    return toast('No pudimos cambiar la pantalla')
+  }
   await loadScreenControl();toast('Pantalla: '+mode.toUpperCase())
 }
 function effectiveScreenMode(){
   const manual=screenControl?.mode||'auto';
+  const triviaMode=live.status==='open'?'trivia-open':live.status==='closed'?'trivia-closed':live.status==='reveal'?'trivia-reveal':null;
+  if(triviaMode&&(manual==='auto'||manual==='photos'))return triviaMode;
   if(manual==='trivia')return screenControl?.last_trivia?'trivia-last':'ranking';
   if(manual!=='auto')return manual;
-  if(live.status==='open')return 'trivia-open';
-  if(live.status==='closed')return 'trivia-closed';
-  if(live.status==='reveal')return 'trivia-reveal';
+  if(triviaMode)return triviaMode;
   if(screenMission?.status==='active'){
     if(screenAutoPhoto&&(screenMission.photos||[]).length)return 'mission-photo';
     return 'mission';
   }
+  if((screenControl?.wedding_gallery||[]).length&&screenAutoAlbum)return 'photos';
   return 'ranking'
 }
 function renderAdminScreenPreview(){
@@ -601,7 +738,7 @@ function renderAdminScreenPreview(){
   else if(mode==='trivia-reveal'){title='✨ Resultado de Trivia';detail='Permanece visible hasta que finalices la pregunta'}
   else if(mode==='trivia-last'){title='✨ Último resultado de Trivia';detail=`Pregunta ${screenControl?.last_trivia?.display_order||''} · mostrado manualmente`}
   else if(mode==='mission'||mode==='mission-photo'){title=`📸 ${screenMission?.title||'Misión activa'}`;detail=`${screenMission?.approved_count||0}/${screenMission?.total_tables||0} mesas aprobadas · ${(screenMission?.photos||[]).length} fotos`}
-  else if(mode==='photos'){title='🖼️ Carrusel de fotos';detail=`${(screenControl?.gallery||[]).length} fotos aprobadas disponibles`}
+  else if(mode==='photos'){title='🖼️ Carrusel de fotos';detail=`${(screenControl?.wedding_gallery||[]).length} fotos aprobadas del álbum`}
   $('admScreenPreview').innerHTML=`<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA · ${tag}</div><b>${esc(title)}</b><div class="small">${esc(detail)}</div></div>`
 }
 async function missionAdminAction(action,missionId=null,submissionId=null){
@@ -638,9 +775,9 @@ function renderMissionStage(photoOnly=false){
   return stageShell(`<div class="mission-stage"><div class="mission-copy"><div class="screen-kicker">📸 MISIÓN ACTIVA · ${screenMission.display_order}/5 · +${screenMission.points} PTS</div><h1 class="screen-title">${esc(screenMission.title)}</h1><p class="screen-subtitle">${esc(screenMission.description)}</p><div class="mission-stats"><div class="mission-stat"><b>${done}/${total}</b><span>mesas aprobadas</span></div><div class="mission-stat"><b>${screenMission.pending_count||0}</b><span>esperando aprobación</span></div></div><div class="mission-progress-v2"><i style="width:${pct}%"></i></div></div><div class="mission-photo-wrap">${photo?`<img class="mission-photo-big" src="${missionPhotoUrl(photo.photo_path)}" alt="Foto aprobada"><div class="mission-photo-meta"><span>✅ ${esc(photo.table_name)}</span><span>${(screenPhotoIndex%photos.length)+1}/${photos.length}</span></div>`:`<div class="mission-photo-big" style="display:grid;place-items:center;color:#d6cec6;font-size:1.6vw">Esperando las primeras fotos aprobadas…</div>`}</div></div>`)
 }
 function renderGalleryStage(){
-  const photos=screenControl?.gallery||[];if(!photos.length)return stageShell('<div class="lock-wrap"><div class="lock-icon">📷</div><h1 class="screen-title">Todavía no hay fotos aprobadas</h1><p class="screen-subtitle">Cuando empiecen a cumplir misiones, van a aparecer acá.</p></div>');
+  const photos=screenControl?.wedding_gallery||[];if(!photos.length)return stageShell('<div class="lock-wrap"><div class="lock-icon">📷</div><h1 class="screen-title">Todavía no hay fotos aprobadas</h1><p class="screen-subtitle">Cuando empiecen a subirlas, van a aparecer acá.</p></div>');
   const p=photos[galleryPhotoIndex%photos.length];
-  return `<div class="stage gallery-stage screen-fade"><div class="stage-top"><div class="stage-brand">MIGUE & SEBAS</div><div class="stage-date">FOTOS DE LA NOCHE</div></div><img class="gallery-photo" src="${missionPhotoUrl(p.photo_path)}" alt="Foto aprobada"><div class="gallery-overlay"><div><div class="screen-kicker">📸 ${esc(p.mission_title||'Misión cumplida')}</div><h2>${esc(p.table_name)}</h2><div class="meta">Misión ${p.mission_order||''}</div></div><div class="gallery-count">${(galleryPhotoIndex%photos.length)+1} / ${photos.length}</div></div></div>`
+  return `<div class="stage gallery-stage screen-fade"><div class="stage-top"><div class="stage-brand">MIGUE & SEBAS</div><div class="stage-date">FOTOS DE LA NOCHE</div></div><img class="gallery-photo" src="${weddingPhotoUrl(p.photo_path)}" alt="Foto aprobada"><div class="gallery-overlay"><div><div class="screen-kicker">📸 FOTOS DE LA NOCHE</div><h2>${esc(p.table_name)}</h2><div class="meta">Subió ${esc(p.guest_name)}</div></div><div class="gallery-count">${(galleryPhotoIndex%photos.length)+1} / ${photos.length}</div></div></div>`
 }
 function renderRankingRail(){
   const rows=(board||[]).slice().sort((a,b)=>(b.points||0)-(a.points||0));
@@ -678,14 +815,15 @@ function sub(){
     db.channel('t').on('postgres_changes',{event:'UPDATE',schema:'public',table:'wedding_tables'},async()=>{await loadTables();await loadMission();await loadScreenMission()}).subscribe(),
     db.channel('e').on('postgres_changes',{event:'UPDATE',schema:'public',table:'event_state',filter:'id=eq.1'},async()=>{await loadTrivia();await loadMission();await loadScreenMission();await loadScreenControl();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe(),
     db.channel('a').on('postgres_changes',{event:'INSERT',schema:'public',table:'trivia_answers'},loadTrivia).subscribe(),
-    db.channel('ms').on('postgres_changes',{event:'*',schema:'public',table:'mission_submissions'},async()=>{await loadMission();await loadScreenMission();await loadScreenControl();await loadTables();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe()
+    db.channel('ms').on('postgres_changes',{event:'*',schema:'public',table:'mission_submissions'},async()=>{await loadMission();await loadScreenMission();await loadScreenControl();await loadTables();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe(),
+    db.channel('wp').on('postgres_changes',{event:'*',schema:'public',table:'wedding_photos'},async()=>{await loadWeddingPhotos();await loadScreenControl();if(sessionStorage.getItem('ak'))await adminRefresh({silent:true})}).subscribe()
   ]
 }
 async function boot(){
   let p=location.pathname;
   if(p==='/screen'||p==='/screen/'){
     $('app').classList.add('hidden');$('nav').classList.add('hidden');$('screen').classList.remove('hidden');await load();sub();
-    screenCarousel=setInterval(()=>{const mn=(screenMission.photos||[]).length,gn=(screenControl.gallery||[]).length;if(mn>1)screenPhotoIndex=(screenPhotoIndex+1)%mn;if(gn>1)galleryPhotoIndex=(galleryPhotoIndex+1)%gn;if((screenControl.mode||'auto')==='auto'&&!['open','closed','reveal'].includes(live.status)&&screenMission?.status==='active'&&mn)screenAutoPhoto=!screenAutoPhoto;renderScreen()},8000);
+    screenCarousel=setInterval(()=>{const mn=(screenMission.photos||[]).length,gn=(screenControl.wedding_gallery||[]).length;if(mn>1)screenPhotoIndex=(screenPhotoIndex+1)%mn;if(gn>1)galleryPhotoIndex=(galleryPhotoIndex+1)%gn;const triviaOn=['open','closed','reveal'].includes(live.status);if((screenControl.mode||'auto')==='auto'&&!triviaOn&&screenMission?.status==='active'&&mn)screenAutoPhoto=!screenAutoPhoto;if((screenControl.mode||'auto')==='auto'&&!triviaOn&&screenMission?.status!=='active'&&gn)screenAutoAlbum=!screenAutoAlbum;renderScreen()},8000);
     return
   }
   if(p==='/admin'||p==='/admin/'||p==='/control'||p==='/control/'){
