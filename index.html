@@ -15,6 +15,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
 .lead{color:var(--m);line-height:1.5}.input,.btn{width:100%;padding:15px;border-radius:16px}.input{border:1px solid var(--l);background:#fff}
 .btn{border:0;background:var(--i);color:white;font-weight:800}.btn.secondary{background:#fff;color:var(--i);border:1px solid var(--l)}.btn.gold{background:var(--g)}.btn.danger{background:#9a4038}
 .feature{background:var(--d);color:white;border-radius:28px;padding:22px;margin:16px 0}.feature p{color:#cfc7bf}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.now-head{font-size:10px;letter-spacing:.16em;font-weight:900;text-transform:uppercase;color:#d3b075;margin-bottom:8px}.now-item{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:13px 0;border-top:1px solid #ffffff20}.now-item:first-of-type{border-top:0}.now-icon{font-size:24px}.now-copy b{display:block;font-size:15px}.now-copy span{display:block;color:#cfc7bf;font-size:11px;line-height:1.35;margin-top:2px}.now-btn{border:0;background:#fff;color:#181511;border-radius:12px;padding:10px 11px;font-size:10px;font-weight:900;white-space:nowrap}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.tile{min-height:100px;border:1px solid var(--l);background:var(--c);border-radius:20px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}.tile span{font-size:24px}
 .head{display:flex;gap:12px;align-items:center}.back{width:42px;height:42px;border-radius:50%;border:1px solid var(--l);background:white}
 .choice{width:100%;padding:14px;border:1px solid var(--l);background:white;border-radius:15px;text-align:left;margin-top:8px}.choice.correct{background:#edf6ef}.choice.wrong{background:#faefed}
@@ -96,7 +97,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
 
 <section id="home" class="hidden">
   <h1>Hola, <span id="gn">Invitado</span> 👋</h1><p class="lead">Mesa <b id="ht">—</b></p>
-  <div class="feature"><div class="ey" style="color:#baa">🧠 Trivia de Migue & Sebas</div><h2 id="hqt">Esperando la próxima pregunta…</h2><p id="hqs">Cuando se abra una pregunta, aparece acá.</p><button class="btn" style="background:white;color:#181511" onclick="show('trivia')">ABRIR</button></div>
+  <div id="nowPlaying" class="feature hidden"></div>
   <div class="card"><div class="row"><div><div class="ey">Tu mesa</div><h2 id="hr">#—</h2></div><div style="text-align:right"><div id="rtn" class="small">—</div><b><span id="hp">0</span> pts</b></div></div></div>
   <div class="grid" style="margin-top:12px">
     <button class="tile" onclick="show('trivia')"><span>🧠</span><b>TRIVIA</b></button>
@@ -207,7 +208,7 @@ const db=supabase.createClient(
   {auth:{persistSession:false}}
 );
 const tm={QP7K2M:'Quiubo pues',QK9R4X:'Qué quilombo',MG6T8P:'Merequetengue',AM3V7N:'Asu mare',AF8C5L:'Alta fiesta',NT4J9B:'No sea toche',LR2H6S:'La raja po'};
-let board=[],mission=null,screenMission={status:'idle'},screenControl={mode:'auto',gallery:[],last_trivia:null},live={status:'idle'},dash=null,mdash=null,chs=[],selectedMissionFile=null,selectedMissionUrl=null,missionUploading=false,screenPhotoIndex=0,galleryPhotoIndex=0,screenCarousel=null,screenAutoPhoto=false;
+let board=[],mission=null,screenMission={status:'idle'},screenControl={mode:'auto',gallery:[],last_trivia:null},live={status:'idle'},dash=null,mdash=null,chs=[],selectedMissionFile=null,selectedMissionUrl=null,missionUploading=false,screenPhotoIndex=0,galleryPhotoIndex=0,screenCarousel=null,screenAutoPhoto=false,adminPoller=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
@@ -238,10 +239,10 @@ async function loadTables(){
   board=data||[];renderHome();renderRank();renderScreen()
 }
 async function loadMission(){
-  if(!gid()||!sec()){mission=null;renderMission();return}
+  if(!gid()||!sec()){mission=null;renderMission();renderHome();return}
   let {data,error}=await db.rpc('get_active_photo_mission',{p_guest_id:gid(),p_guest_secret:sec()});
-  if(error){mission=null;renderMission();return}
-  mission=data;renderMission()
+  if(error){mission=null;renderMission();renderHome();return}
+  mission=data;renderMission();renderHome()
 }
 async function loadScreenMission(){
   let {data,error}=await db.rpc('get_live_mission_screen');
@@ -275,9 +276,26 @@ function renderHome(){
   let tid=localStorage.getItem('tid'),own=board.find(x=>x.id===tid),i=board.findIndex(x=>x.id===tid);
   $('gn').textContent=localStorage.getItem('gname')||'Invitado';$('ht').textContent=own?.name||localStorage.getItem('tname')||'—';
   $('rtn').textContent=own?.name||'—';$('hp').textContent=own?.points||0;$('hr').textContent=i>=0?'#'+(i+1):'#—';
-  if(live.status==='open'){$('hqt').textContent=`Pregunta ${live.display_order}/${live.total_questions}: ${live.question}`;$('hqs').textContent=`${live.response_count} respuestas recibidas.`}
-  else if(live.status==='reveal'){$('hqt').textContent=`Resultado pregunta ${live.display_order}`;$('hqs').textContent=live.reveal_text||''}
-  else{$('hqt').textContent='Esperando la próxima pregunta…';$('hqs').textContent='Cuando se abra una pregunta, aparece acá.'}
+
+  const box=$('nowPlaying');if(!box)return;
+  const items=[];
+  if(['open','closed','reveal'].includes(live.status)){
+    let title='Trivia activa',detail=`Pregunta ${live.display_order||'—'}/${live.total_questions||'—'}`,cta='VER TRIVIA';
+    if(live.status==='open'){title='Trivia activa';detail=live.question||detail;cta=localStorage.getItem(key())?'VER RESPUESTA':'RESPONDER'}
+    else if(live.status==='closed'){title='Trivia cerrada';detail='Las respuestas ya cerraron. Esperando el resultado…';cta='VER ESTADO'}
+    else if(live.status==='reveal'){title='Resultado disponible';detail=live.reveal_text||`Pregunta ${live.display_order}`;cta='VER RESULTADO'}
+    items.push(`<div class="now-item"><div class="now-icon">🧠</div><div class="now-copy"><b>${esc(title)}</b><span>${esc(detail)}</span></div><button class="now-btn" onclick="show('trivia')">${cta}</button></div>`);
+  }
+  if(mission&&mission.active!==false){
+    const mstatus=mission.status||'not_started';
+    let detail=`${mission.title||'Misión activa'} · +${mission.points||0} pts`,cta='VER MISIÓN';
+    if(mstatus==='approved')detail=`✅ ${mission.title||'Misión'} · cumplida por tu mesa`;
+    else if(mstatus==='pending')detail=`⏳ ${mission.title||'Misión'} · foto esperando aprobación`;
+    else if(mstatus==='rejected')detail=`🔁 ${mission.title||'Misión'} · pueden reintentar`;
+    items.push(`<div class="now-item"><div class="now-icon">📸</div><div class="now-copy"><b>Misión activa</b><span>${esc(detail)}</span></div><button class="now-btn" onclick="show('mission')">${cta}</button></div>`);
+  }
+  if(!items.length){box.classList.add('hidden');box.innerHTML='';return}
+  box.innerHTML=`<div class="now-head">Ahora en juego</div>${items.join('')}`;box.classList.remove('hidden');
 }
 
 function key(){return 'q_'+live.question_id}
@@ -377,19 +395,30 @@ function renderRank(){
 }
 
 async function adminLogin(){sessionStorage.setItem('ak',$('akey').value.trim());await adminRefresh()}
-async function adminRefresh(){
-  let k=sessionStorage.getItem('ak');if(!k)return;
+async function adminRefresh(opts={}){
+  let k=sessionStorage.getItem('ak');if(!k)return false;
+  const silent=!!opts.silent;
   const [tr,ms]=await Promise.all([
     db.rpc('admin_trivia_dashboard',{p_admin_key:k}),
     db.rpc('admin_mission_overview',{p_admin_key:k})
   ]);
   if(tr.error||ms.error){
-    sessionStorage.removeItem('ak');
-    $('alog').classList.remove('hidden');$('ap').classList.add('hidden');
-    return toast('Clave incorrecta');
+    const msg=[tr.error?.message,ms.error?.message].filter(Boolean).join(' · ');
+    if(/invalid admin key/i.test(msg)){
+      sessionStorage.removeItem('ak');
+      $('alog').classList.remove('hidden');$('ap').classList.add('hidden');
+      if(!silent)toast('Clave incorrecta');
+    }else if(!silent)toast('No pudimos actualizar el panel');
+    return false;
   }
-  dash=tr.data;mdash=ms.data;$('alog').classList.add('hidden');$('ap').classList.remove('hidden');renderAdmin()
+  dash=tr.data;mdash=ms.data;$('alog').classList.add('hidden');$('ap').classList.remove('hidden');renderAdmin();return true
 }
+function startAdminAutoRefresh(){
+  if(adminPoller)clearInterval(adminPoller);
+  adminPoller=setInterval(()=>{if(sessionStorage.getItem('ak')&&!document.hidden)adminRefresh({silent:true})},8000);
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&sessionStorage.getItem('ak'))adminRefresh({silent:true})});
+window.addEventListener('focus',()=>{if(sessionStorage.getItem('ak'))adminRefresh({silent:true})});
 function renderAdmin(){
   if(!dash||!$('ap'))return;
   renderTriviaAdmin();renderMissionAdmin();renderScreenControls();renderAdminScreenPreview()
@@ -646,7 +675,7 @@ async function boot(){
     return
   }
   if(p==='/admin'||p==='/admin/'||p==='/control'||p==='/control/'){
-    $('join').classList.add('hidden');$('admin').classList.remove('hidden');$('nav').classList.add('hidden');await load();sub();if(sessionStorage.getItem('ak'))await adminRefresh();return
+    $('join').classList.add('hidden');$('admin').classList.remove('hidden');$('nav').classList.add('hidden');await load();sub();startAdminAutoRefresh();if(sessionStorage.getItem('ak'))await adminRefresh();return
   }
   if(p==='/firmas'||p==='/firmas/'){await load();sub();show('signatures');return}
   if(p==='/musica'||p==='/musica/'){await load();sub();show('music');return}
