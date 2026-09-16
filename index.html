@@ -1,16 +1,381 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f7f0e8"><title>Migue & Sebas · Boda Live</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script><style>
-:root{--p:#f7f0e8;--c:#fffdfa;--i:#181511;--m:#756c62;--l:#ddd0c2;--g:#a9782e;--d:#171512}*{box-sizing:border-box}html,body{margin:0;background:var(--p);color:var(--i);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;min-height:100vh;padding:18px 18px 110px}.brand{text-align:center;margin-bottom:24px}.brand b{font-family:Georgia,serif;letter-spacing:.08em}.brand small,.small{font-size:11px;color:var(--m)}.hero,h1,h2{font-family:Georgia,serif;font-weight:400}.hero{font-size:44px;line-height:.98}.card{background:var(--c);border:1px solid var(--l);border-radius:24px;padding:20px;margin-top:14px}.lead{color:var(--m);line-height:1.5}.input,.btn{width:100%;padding:15px;border-radius:16px}.input{border:1px solid var(--l);background:#fff}.btn{border:0;background:var(--i);color:white;font-weight:800}.feature{background:var(--d);color:white;border-radius:28px;padding:22px;margin:16px 0}.feature p{color:#cfc7bf}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.tile{min-height:100px;border:1px solid var(--l);background:var(--c);border-radius:20px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}.tile span{font-size:24px}.head{display:flex;gap:12px;align-items:center}.back{width:42px;height:42px;border-radius:50%;border:1px solid var(--l);background:white}.choice{width:100%;padding:14px;border:1px solid var(--l);background:white;border-radius:15px;text-align:left;margin-top:8px}.choice.correct{background:#edf6ef}.choice.wrong{background:#faefed}.score{display:grid;grid-template-columns:28px 1fr auto;gap:8px;padding:13px 0;border-bottom:1px solid var(--l)}.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;width:min(calc(100% - 28px),472px);background:#181511;border-radius:22px;display:grid;grid-template-columns:repeat(4,1fr);padding:10px;z-index:20}.bottom button{background:transparent;border:0;color:#fff;font-size:10px}.bottom span{display:block;font-size:19px}.hidden{display:none!important}.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;background:#181511;color:#fff;padding:12px 16px;border-radius:30px}.music{display:block;padding:16px;border:1px solid var(--l);border-radius:18px;background:#fff;margin-top:10px;color:inherit;text-decoration:none}.screen{min-height:100vh;background:#171512;color:#fff;padding:5vw;display:flex;flex-direction:column;justify-content:center}.screen h1{font-size:4.4vw}.screenrow{display:flex;justify-content:space-between;border-bottom:1px solid #ffffff22;padding:1vw 0;font-size:1.6vw}.bar{height:7px;background:#eee4d8;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:var(--g)}.ey{font-size:10px;letter-spacing:.16em;font-weight:900;text-transform:uppercase;color:var(--m)}.adminq{padding:12px 0;border-bottom:1px solid var(--l)}
-.module-img{display:block;width:100%;height:auto;margin:18px auto 0;border-radius:18px;border:1px solid var(--line);box-shadow:0 14px 34px rgba(40,30,20,.08)}.dj-img{max-width:430px}.book-img{max-width:430px}</style></head><body><main id="app" class="s"><div class="brand"><b>MIGUE & SEBAS</b><br><small>25 · 09 · 26</small></div>
-<section id="join"><div class="ey">Boda Live</div><h1 class="hero">La boda también se juega.</h1><p class="lead">Estás entrando por el QR de <b id="jt">tu mesa</b>. Poné tu nombre y listo.</p><div class="card"><input id="name" class="input" placeholder="Tu nombre"><button class="btn" style="margin-top:10px" onclick="joinW()">ENTRAR A LA BODA</button></div></section>
-<section id="home" class="hidden"><h1>Hola, <span id="gn">Invitado</span> 👋</h1><p class="lead">Mesa <b id="ht">—</b></p><div class="feature"><div class="ey" style="color:#baa">🧠 Trivia de Migue & Sebas</div><h2 id="hqt">Esperando la próxima pregunta…</h2><p id="hqs">Cuando se abra una pregunta, aparece acá.</p><button class="btn" style="background:white;color:#181511" onclick="show('trivia')">ABRIR</button></div><div class="card"><div class="row"><div><div class="ey">Tu mesa</div><h2 id="hr">#—</h2></div><div style="text-align:right"><div id="rtn" class="small">—</div><b><span id="hp">0</span> pts</b></div></div></div><div class="grid" style="margin-top:12px"><button class="tile" onclick="show('trivia')"><span>🧠</span><b>TRIVIA</b></button><button class="tile" onclick="show('mission')"><span>🎯</span><b>MISIONES</b></button><button class="tile" onclick="show('ranking')"><span>🏆</span><b>RANKING</b></button><button class="tile" onclick="show('signatures')"><span>✍️</span><b>FIRMAS</b></button><button class="tile" onclick="show('music')"><span>🎵</span><b>MÚSICA</b></button></div></section>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f0e8">
+<title>Migue & Sebas · Boda Live</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
+<style>
+:root{--p:#f7f0e8;--c:#fffdfa;--i:#181511;--m:#756c62;--l:#ddd0c2;--g:#a9782e;--d:#171512}
+*{box-sizing:border-box}html,body{margin:0;background:var(--p);color:var(--i);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;min-height:100vh;padding:18px 18px 110px}
+.brand{text-align:center;margin-bottom:24px}.brand b{font-family:Georgia,serif;letter-spacing:.08em}.brand small,.small{font-size:11px;color:var(--m)}
+.hero,h1,h2{font-family:Georgia,serif;font-weight:400}.hero{font-size:44px;line-height:.98}.card{background:var(--c);border:1px solid var(--l);border-radius:24px;padding:20px;margin-top:14px}
+.lead{color:var(--m);line-height:1.5}.input,.btn{width:100%;padding:15px;border-radius:16px}.input{border:1px solid var(--l);background:#fff}
+.btn{border:0;background:var(--i);color:white;font-weight:800}.btn.secondary{background:#fff;color:var(--i);border:1px solid var(--l)}.btn.gold{background:var(--g)}.btn.danger{background:#9a4038}
+.feature{background:var(--d);color:white;border-radius:28px;padding:22px;margin:16px 0}.feature p{color:#cfc7bf}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.tile{min-height:100px;border:1px solid var(--l);background:var(--c);border-radius:20px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}.tile span{font-size:24px}
+.head{display:flex;gap:12px;align-items:center}.back{width:42px;height:42px;border-radius:50%;border:1px solid var(--l);background:white}
+.choice{width:100%;padding:14px;border:1px solid var(--l);background:white;border-radius:15px;text-align:left;margin-top:8px}.choice.correct{background:#edf6ef}.choice.wrong{background:#faefed}
+.score{display:grid;grid-template-columns:28px 1fr auto;gap:8px;padding:13px 0;border-bottom:1px solid var(--l)}.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;width:min(calc(100% - 28px),472px);background:#181511;border-radius:22px;display:grid;grid-template-columns:repeat(4,1fr);padding:10px;z-index:20}.bottom button{background:transparent;border:0;color:#fff;font-size:10px}.bottom span{display:block;font-size:19px}
+.hidden{display:none!important}.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;background:#181511;color:#fff;padding:12px 16px;border-radius:30px;z-index:50;white-space:nowrap;max-width:calc(100vw - 28px);overflow:hidden;text-overflow:ellipsis}
+.music{display:block;padding:16px;border:1px solid var(--l);border-radius:18px;background:#fff;margin-top:10px;color:inherit;text-decoration:none}
+.screen{min-height:100vh;background:#171512;color:#fff;padding:5vw;display:flex;flex-direction:column;justify-content:center}.screen h1{font-size:4.4vw}.screenrow{display:flex;justify-content:space-between;border-bottom:1px solid #ffffff22;padding:1vw 0;font-size:1.6vw}
+.bar{height:7px;background:#eee4d8;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:var(--g)}.ey{font-size:10px;letter-spacing:.16em;font-weight:900;text-transform:uppercase;color:var(--m)}
+.adminq{padding:12px 0;border-bottom:1px solid var(--l)}.module-img{display:block;width:100%;height:auto;margin:18px auto 0;border-radius:18px;border:1px solid var(--l);box-shadow:0 14px 34px rgba(40,30,20,.08)}.dj-img,.book-img{max-width:430px}
+.mission-preview,.admin-photo{display:block;width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:18px;border:1px solid var(--l);margin-top:14px}.admin-photo{max-height:320px}
+.notice{border-radius:18px;padding:15px;margin-top:14px}.notice.pending{background:#fff7e8}.notice.approved{background:#edf6ef}.notice.rejected{background:#faefed}
+.badge{display:inline-block;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900;background:#eee4d8}.badge.live{background:#181511;color:white}.mission-admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.admin-submission{padding:16px 0;border-bottom:1px solid var(--l)}.admin-submission:last-child{border-bottom:0}.points-pill{display:inline-block;background:#fff;color:#181511;padding:7px 10px;border-radius:999px;font-weight:900;font-size:12px}
+</style>
+</head>
+<body>
+<main id="app" class="s">
+<div class="brand"><b>MIGUE & SEBAS</b><br><small>25 · 09 · 26</small></div>
+
+<section id="join">
+  <div class="ey">Boda Live</div>
+  <h1 class="hero">La boda también se juega.</h1>
+  <p class="lead">Estás entrando por el QR de <b id="jt">tu mesa</b>. Poné tu nombre y listo.</p>
+  <div class="card"><input id="name" class="input" placeholder="Tu nombre"><button class="btn" style="margin-top:10px" onclick="joinW()">ENTRAR A LA BODA</button></div>
+</section>
+
+<section id="home" class="hidden">
+  <h1>Hola, <span id="gn">Invitado</span> 👋</h1><p class="lead">Mesa <b id="ht">—</b></p>
+  <div class="feature"><div class="ey" style="color:#baa">🧠 Trivia de Migue & Sebas</div><h2 id="hqt">Esperando la próxima pregunta…</h2><p id="hqs">Cuando se abra una pregunta, aparece acá.</p><button class="btn" style="background:white;color:#181511" onclick="show('trivia')">ABRIR</button></div>
+  <div class="card"><div class="row"><div><div class="ey">Tu mesa</div><h2 id="hr">#—</h2></div><div style="text-align:right"><div id="rtn" class="small">—</div><b><span id="hp">0</span> pts</b></div></div></div>
+  <div class="grid" style="margin-top:12px">
+    <button class="tile" onclick="show('trivia')"><span>🧠</span><b>TRIVIA</b></button>
+    <button class="tile" onclick="show('mission')"><span>📸</span><b>MISIONES</b></button>
+    <button class="tile" onclick="show('ranking')"><span>🏆</span><b>RANKING</b></button>
+    <button class="tile" onclick="show('signatures')"><span>✍️</span><b>FIRMAS</b></button>
+    <button class="tile" onclick="show('music')"><span>🎵</span><b>MÚSICA</b></button>
+  </div>
+</section>
+
 <section id="trivia" class="hidden"><div class="head"><button class="back" onclick="show('home')">←</button><h1>Trivia</h1></div><div id="tb"></div></section>
-<section id="mission" class="hidden"><div class="head"><button class="back" onclick="show('home')">←</button><h1>Misiones</h1></div><div class="feature"><div class="ey" style="color:#baa">⚡ Misión activa</div><h2 id="mt">Cargando…</h2><p id="md"></p><button id="mb" class="btn" style="background:white;color:#181511" onclick="completeM()">COMPLETÉ LA MISIÓN</button></div></section>
+
+<section id="mission" class="hidden">
+  <div class="head"><button class="back" onclick="show('home')">←</button><h1>Misiones</h1></div>
+  <div id="missionBody"></div>
+  <input id="missionFile" type="file" accept="image/*" class="hidden" onchange="missionFileChosen(event)">
+</section>
+
 <section id="ranking" class="hidden"><div class="head"><button class="back" onclick="show('home')">←</button><h1>Copa de las mesas</h1></div><div id="scores" class="card"></div></section>
-<section id="signatures" class="hidden"><div class="head"><button class="back" onclick="show('home')">←</button><h1>Libro de Firmas</h1></div><div class="card"><div class="ey">Un recuerdo para siempre</div><h2>No te hagas el moderno tampoco 😏</h2><p>Nos tomamos el laburo de mandar a hacer un <b>Libro de Firmas</b> para que nos dejes un mensaje de <b>puño y letra</b>.</p><p>Queremos un recuerdo para la posteridad. <b>Porfa, acercate al módulo del Libro de Firmas y dejános unas palabras. ❤️</b></p><img class="module-img book-img" src="/libro.jpg" alt="Libro de Firmas de Migue y Sebas"><p class="small" style="text-align:center">Sí: esta vez queremos tinta, papel y letra real.</p></div></section>
-<section id="music" class="hidden"><div class="head"><button class="back" onclick="show('home')">←</button><h1>Música</h1></div><div class="card"><div class="ey">La banda sonora de esta noche</div><h2>¿Quedaste sorprendido con los hitazos que escuchaste esta noche?</h2><p class="lead">Desde acá podés revivir estos temazos cuando te agarre nostalgia y pienses en <b>lo bien que la pasaste hoy.</b></p><a class="music" href="https://open.spotify.com/playlist/7Li6D8DO3ldfQE18VMMM5E" target="_blank"><b>🍽️ Boda Cena</b><div class="small">Abrir en Spotify ↗</div></a><a class="music" href="https://open.spotify.com/playlist/4gOJUa0sN4hXzCvQyk3Nue" target="_blank"><b>🪩 Boda Fiesta</b><div class="small">Abrir en Spotify ↗</div></a><button class="music" style="width:100%;text-align:left;background:#181511;color:#fff" onclick="show('dj')"><b>🎧 Pedile un tema al DJ</b><div class="small" style="color:#bbb">Probá suerte…</div></button></div></section>
-<section id="dj" class="hidden"><div class="head"><button class="back" onclick="show('music')">←</button><h1>Pedile un tema al DJ</h1></div><div class="card"><div class="ey">Solicitud recibida</div><h2>Nuestro DJ va a anotar tu pedido con toda la seriedad que merece.</h2><img class="module-img dj-img" src="/dj.jpg" alt="Muy interesante, lo anotaré en mi máquina de escribir invisible"><p class="small" style="text-align:center">Gracias por tu aporte a la programación musical. 😌</p></div></section>
-<section id="admin" class="hidden"><h1>Boda Control</h1><div id="alog" class="card"><input id="akey" class="input" type="password" placeholder="Clave"><button class="btn" style="margin-top:10px" onclick="adminLogin()">ENTRAR</button></div><div id="ap" class="hidden"><div class="card"><b id="ast">—</b><div id="am" class="small"></div></div><div class="card"><div id="aq"></div></div><div class="card"><button class="btn" onclick="adminAction('close')">🔒 CERRAR RESPUESTAS</button><button class="btn" style="margin-top:8px;background:#a9782e" onclick="adminAction('reveal')">✨ REVELAR + PUNTOS</button><button class="btn" style="margin-top:8px" onclick="adminAction('idle')">VOLVER AL RANKING</button></div></div></section></main>
-<nav id="nav" class="bottom hidden"><button onclick="show('home')"><span>⌂</span>INICIO</button><button onclick="show('trivia')"><span>🧠</span>TRIVIA</button><button onclick="show('ranking')"><span>🏆</span>RANKING</button><button onclick="show('mission')"><span>⚡</span>MISIONES</button></nav><div id="toast" class="toast hidden"></div><section id="screen" class="screen hidden"><div id="sb"></div></section>
+
+<section id="signatures" class="hidden">
+  <div class="head"><button class="back" onclick="show('home')">←</button><h1>Libro de Firmas</h1></div>
+  <div class="card"><div class="ey">Un recuerdo para siempre</div><h2>No te hagas el moderno tampoco 😏</h2><p>Nos tomamos el laburo de mandar a hacer un <b>Libro de Firmas</b> para que nos dejes un mensaje de <b>puño y letra</b>.</p><p>Queremos un recuerdo para la posteridad. <b>Porfa, acercate al módulo del Libro de Firmas y dejános unas palabras. ❤️</b></p><img class="module-img book-img" src="/libro.jpg" alt="Libro de Firmas de Migue y Sebas"><p class="small" style="text-align:center">Sí: esta vez queremos tinta, papel y letra real.</p></div>
+</section>
+
+<section id="music" class="hidden">
+  <div class="head"><button class="back" onclick="show('home')">←</button><h1>Música</h1></div>
+  <div class="card"><div class="ey">La banda sonora de esta noche</div><h2>¿Quedaste sorprendido con los hitazos que escuchaste esta noche?</h2><p class="lead">Desde acá podés revivir estos temazos cuando te agarre nostalgia y pienses en <b>lo bien que la pasaste hoy.</b></p>
+    <a class="music" href="https://open.spotify.com/playlist/7Li6D8DO3ldfQE18VMMM5E" target="_blank"><b>🍽️ Boda Cena</b><div class="small">Abrir en Spotify ↗</div></a>
+    <a class="music" href="https://open.spotify.com/playlist/4gOJUa0sN4hXzCvQyk3Nue" target="_blank"><b>🪩 Boda Fiesta</b><div class="small">Abrir en Spotify ↗</div></a>
+    <button class="music" style="width:100%;text-align:left;background:#181511;color:#fff" onclick="show('dj')"><b>🎧 Pedile un tema al DJ</b><div class="small" style="color:#bbb">Probá suerte…</div></button>
+  </div>
+</section>
+
+<section id="dj" class="hidden">
+  <div class="head"><button class="back" onclick="show('music')">←</button><h1>Pedile un tema al DJ</h1></div>
+  <div class="card"><div class="ey">Solicitud recibida</div><h2>Nuestro DJ va a anotar tu pedido con toda la seriedad que merece.</h2><img class="module-img dj-img" src="/dj.jpg" alt="Muy interesante, lo anotaré en mi máquina de escribir invisible"><p class="small" style="text-align:center">Gracias por tu aporte a la programación musical. 😌</p></div>
+</section>
+
+<section id="admin" class="hidden">
+  <h1>Boda Control</h1>
+  <div id="alog" class="card"><input id="akey" class="input" type="password" placeholder="Clave"><button class="btn" style="margin-top:10px" onclick="adminLogin()">ENTRAR</button></div>
+  <div id="ap" class="hidden">
+    <div class="card"><div class="ey">Trivia</div><b id="ast">—</b><div id="am" class="small"></div></div>
+    <div class="card"><div id="aq"></div></div>
+    <div class="card">
+      <button class="btn" onclick="adminAction('close')">🔒 CERRAR RESPUESTAS</button>
+      <button class="btn gold" style="margin-top:8px" onclick="adminAction('reveal')">✨ REVELAR + PUNTOS</button>
+      <button class="btn" style="margin-top:8px" onclick="adminAction('idle')">VOLVER AL RANKING</button>
+    </div>
+    <div class="card">
+      <div class="ey">Misiones fotográficas</div>
+      <h2 style="margin-bottom:6px">Control de misiones</h2>
+      <p class="lead" style="margin-top:0">Activá una misión cuando corresponda. Sólo una puede estar en juego a la vez.</p>
+      <div id="admMissions"></div>
+      <button class="btn secondary" style="margin-top:12px" onclick="missionAdminAction('deactivate')">PAUSAR MISIONES</button>
+    </div>
+    <div class="card">
+      <div class="ey">Moderación</div>
+      <h2>Fotos por aprobar</h2>
+      <div id="admSubmissions"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<nav id="nav" class="bottom hidden">
+  <button onclick="show('home')"><span>⌂</span>INICIO</button>
+  <button onclick="show('trivia')"><span>🧠</span>TRIVIA</button>
+  <button onclick="show('ranking')"><span>🏆</span>RANKING</button>
+  <button onclick="show('mission')"><span>📸</span>MISIONES</button>
+</nav>
+<div id="toast" class="toast hidden"></div>
+<section id="screen" class="screen hidden"><div id="sb"></div></section>
+
 <script>
-const db=supabase.createClient('https://dadagladigrveckszcdh.supabase.co','sb_publishable_BTNhpBqjK7Ypy3-qQ3LsSQ_hIyaIosc',{auth:{persistSession:false}}),tm={QP7K2M:'Quiubo pues',QK9R4X:'Qué quilombo',MG6T8P:'Merequetengue',AM3V7N:'Asu mare',AF8C5L:'Alta fiesta',NT4J9B:'No sea toche',LR2H6S:'La raja po'};let board=[],mission=null,live={status:'idle'},dash=null,chs=[];const $=id=>document.getElementById(id);function code(){let a=location.pathname.split('/').filter(Boolean).pop()?.toUpperCase();return tm[a]?a:'AM3V7N'}function gid(){return localStorage.getItem('gid')}function sec(){return localStorage.getItem('gsec')}function show(id){['join','home','trivia','mission','ranking','signatures','music','dj','admin'].forEach(x=>$(x).classList.toggle('hidden',x!==id));$('nav').classList.toggle('hidden',id==='join'||id==='admin');if(id==='trivia')renderTrivia();if(id==='ranking')renderRank()}function toast(t){$('toast').textContent=t;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),1800)}async function joinW(){let n=$('name').value.trim();if(!n)return;let {data,error}=await db.rpc('join_wedding',{p_join_code:code(),p_guest_name:n});if(error)return toast('No pudimos entrar');let r=Array.isArray(data)?data[0]:data;localStorage.setItem('gid',r.guest_id);localStorage.setItem('gsec',r.guest_secret);localStorage.setItem('gname',n);localStorage.setItem('tid',r.table_id);localStorage.setItem('tname',r.table_name);await load();show('home')}async function loadTables(){let {data}=await db.from('wedding_tables').select('id,name,points').eq('is_active',true).order('points',{ascending:false});board=data||[];renderHome();renderRank();renderScreen()}async function loadMission(){let {data:s}=await db.from('event_state').select('active_mission_id').eq('id',1).maybeSingle();if(s?.active_mission_id){let {data}=await db.from('missions').select('id,title,description,points').eq('id',s.active_mission_id).maybeSingle();mission=data}renderMission()}async function loadTrivia(){let {data}=await db.rpc('get_live_trivia');if(data)live=data;renderTrivia();renderHome();renderScreen();renderAdmin()}async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia()])}function renderHome(){let tid=localStorage.getItem('tid'),own=board.find(x=>x.id===tid),i=board.findIndex(x=>x.id===tid);$('gn').textContent=localStorage.getItem('gname')||'Invitado';$('ht').textContent=own?.name||localStorage.getItem('tname')||'—';$('rtn').textContent=own?.name||'—';$('hp').textContent=own?.points||0;$('hr').textContent=i>=0?'#'+(i+1):'#—';if(live.status==='open'){$('hqt').textContent=`Pregunta ${live.display_order}/${live.total_questions}: ${live.question}`;$('hqs').textContent=`${live.response_count} respuestas recibidas.`}else if(live.status==='reveal'){$('hqt').textContent=`Resultado pregunta ${live.display_order}`;$('hqs').textContent=live.reveal_text||''}else{$('hqt').textContent='Esperando la próxima pregunta…';$('hqs').textContent='Cuando se abra una pregunta, aparece acá.'}}function key(){return 'q_'+live.question_id}function renderTrivia(){if(!$('tb'))return;let e=$('tb'),sel=localStorage.getItem(key());if(live.status==='idle')return e.innerHTML='<div class="card"><h2>Esperando la próxima pregunta…</h2></div>';if(live.status==='open'){if(sel)return e.innerHTML=`<div class="card"><h2>Respuesta registrada ✓</h2><p>Elegiste <b>${sel}</b>. La correcta se revela después.</p></div>`;e.innerHTML=`<div class="card"><div class="ey">Pregunta ${live.display_order}/${live.total_questions} · +10 puntos</div><h2>${live.question}</h2>${live.options.map(o=>`<button class="choice" onclick="answer('${o.key}')"><b>${o.key}</b> ${o.label}</button>`).join('')}</div>`;return}if(live.status==='closed')return e.innerHTML='<div class="card"><h2>Respuestas cerradas 🔒</h2></div>';let c=live.option_counts||{},tot=Math.max(live.response_count||0,1);e.innerHTML=`<div class="card"><h2>${sel===live.correct_option?'¡Correcto! +10 🎉':'Resultado'}</h2>${live.options.map(o=>`<div class="choice ${o.key===live.correct_option?'correct':sel===o.key?'wrong':''}"><b>${o.key}</b> ${o.label} · ${Math.round((c[o.key]||0)/tot*100)}%</div>`).join('')}<p>${live.reveal_text||''}</p></div>`}async function answer(o){let {data,error}=await db.rpc('answer_trivia',{p_guest_id:gid(),p_guest_secret:sec(),p_question_id:live.question_id,p_option:o});if(error)return toast('No pudimos registrar');if(data?.accepted)localStorage.setItem(key(),o);await loadTrivia();toast('Respuesta registrada ✓')}function renderMission(){if(!mission)return;$('mt').textContent=mission.title;$('md').textContent=mission.description;$('mb').textContent=localStorage.getItem('m_'+mission.id)?'✓ MISIÓN COMPLETADA':'COMPLETÉ LA MISIÓN'}async function completeM(){if(!mission||localStorage.getItem('m_'+mission.id))return;let {data,error}=await db.rpc('complete_mission',{p_guest_id:gid(),p_guest_secret:sec(),p_mission_id:mission.id});if(error)return toast('No pudimos sumar');localStorage.setItem('m_'+mission.id,'1');await loadTables();renderMission();toast(`+${(Array.isArray(data)?data[0]:data)?.awarded||mission.points} para tu mesa 🎉`)}function renderRank(){$('scores').innerHTML=board.map((r,i)=>`<div class="score"><span>${i+1}</span><b>${i<3?['🥇 ','🥈 ','🥉 '][i]:''}${r.name}</b><b>${r.points}</b></div>`).join('')}async function adminLogin(){sessionStorage.setItem('ak',$('akey').value.trim());await adminRefresh()}async function adminRefresh(){let k=sessionStorage.getItem('ak');if(!k)return;let {data,error}=await db.rpc('admin_trivia_dashboard',{p_admin_key:k});if(error)return toast('Clave incorrecta');dash=data;$('alog').classList.add('hidden');$('ap').classList.remove('hidden');renderAdmin();await loadTrivia()}function renderAdmin(){if(!dash||!$('ap'))return;$('ast').textContent=(dash.state?.status||'idle').toUpperCase();$('aq').innerHTML=(dash.questions||[]).map(q=>`<div class="adminq"><b>${q.order}. ${q.question}</b><button class="btn" style="margin-top:6px" onclick="adminOpen(${q.id})">ABRIR</button></div>`).join('')}async function adminOpen(id){await adminAction('open',id)}async function adminAction(a,id=null){let {error}=await db.rpc('admin_trivia_action',{p_admin_key:sessionStorage.getItem('ak'),p_action:a,p_question_id:id});if(error)return toast('Error de control');await Promise.all([adminRefresh(),loadTables(),loadTrivia()])}function renderScreen(){if(!$('sb'))return;if(live.status==='open'||live.status==='closed'){$('sb').innerHTML=`<div class="ey" style="color:#d3b075">TRIVIA EN VIVO · PREGUNTA ${live.display_order}/${live.total_questions}</div><h1>${live.question}</h1><h1>${live.response_count} / ${live.total_expected}</h1>${(live.table_participation||[]).map(p=>`<div class="screenrow"><span>${p.name}</span><b>${p.responses}/${p.expected}</b></div>`).join('')}`;return}if(live.status==='reveal'){let c=live.option_counts||{},tot=Math.max(live.response_count||0,1);$('sb').innerHTML=`<div class="ey" style="color:#d3b075">RESULTADO · PREGUNTA ${live.display_order}</div><h1>${live.question}</h1>${live.options.map(o=>`<div class="screenrow"><span>${o.key===live.correct_option?'✅ ':''}${o.label}</span><b>${Math.round((c[o.key]||0)/tot*100)}%</b></div>`).join('')}<h2>${live.correct_count} aciertos · +${(live.correct_count||0)*10} pts</h2>`;return}$('sb').innerHTML=`<div class="ey" style="color:#d3b075">COPA DE LAS MESAS</div><h1>Ranking en vivo</h1>${board.map((r,i)=>`<div class="screenrow"><span>${i+1}. ${r.name}</span><b>${r.points}</b></div>`).join('')}`}function sub(){chs=[db.channel('t').on('postgres_changes',{event:'UPDATE',schema:'public',table:'wedding_tables'},loadTables).subscribe(),db.channel('e').on('postgres_changes',{event:'UPDATE',schema:'public',table:'event_state',filter:'id=eq.1'},loadTrivia).subscribe(),db.channel('a').on('postgres_changes',{event:'INSERT',schema:'public',table:'trivia_answers'},loadTrivia).subscribe()]}async function boot(){let p=location.pathname;if(p==='/screen'||p==='/screen/'){$('app').classList.add('hidden');$('nav').classList.add('hidden');$('screen').classList.remove('hidden');await load();sub();return}if(p==='/admin'||p==='/admin/'){$('join').classList.add('hidden');$('admin').classList.remove('hidden');$('nav').classList.add('hidden');await load();sub();if(sessionStorage.getItem('ak'))await adminRefresh();return}if(p==='/firmas'||p==='/firmas/'){await load();sub();show('signatures');return}if(p==='/musica'||p==='/musica/'){await load();sub();show('music');return}if(p==='/pedile-un-tema'||p==='/pedile-un-tema/'){await load();sub();show('dj');return}$('jt').textContent=tm[code()]||'tu mesa';await load();sub();show(gid()&&sec()?'home':'join')}boot();
-</script></body></html>
+const db=supabase.createClient(
+  'https://dadagladigrveckszcdh.supabase.co',
+  'sb_publishable_BTNhpBqjK7Ypy3-qQ3LsSQ_hIyaIosc',
+  {auth:{persistSession:false}}
+);
+const tm={QP7K2M:'Quiubo pues',QK9R4X:'Qué quilombo',MG6T8P:'Merequetengue',AM3V7N:'Asu mare',AF8C5L:'Alta fiesta',NT4J9B:'No sea toche',LR2H6S:'La raja po'};
+let board=[],mission=null,live={status:'idle'},dash=null,mdash=null,chs=[],selectedMissionFile=null,selectedMissionUrl=null,missionUploading=false;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+
+function code(){let a=location.pathname.split('/').filter(Boolean).pop()?.toUpperCase();return tm[a]?a:'AM3V7N'}
+function gid(){return localStorage.getItem('gid')}
+function sec(){return localStorage.getItem('gsec')}
+function show(id){
+  ['join','home','trivia','mission','ranking','signatures','music','dj','admin'].forEach(x=>$(x).classList.toggle('hidden',x!==id));
+  $('nav').classList.toggle('hidden',id==='join'||id==='admin');
+  if(id==='trivia')renderTrivia();
+  if(id==='ranking')renderRank();
+  if(id==='mission')loadMission();
+}
+function toast(t){$('toast').textContent=t;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2200)}
+
+async function joinW(){
+  let n=$('name').value.trim();if(!n)return;
+  let {data,error}=await db.rpc('join_wedding',{p_join_code:code(),p_guest_name:n});
+  if(error)return toast('No pudimos entrar');
+  let r=Array.isArray(data)?data[0]:data;
+  localStorage.setItem('gid',r.guest_id);localStorage.setItem('gsec',r.guest_secret);localStorage.setItem('gname',n);
+  localStorage.setItem('tid',r.table_id);localStorage.setItem('tname',r.table_name);
+  await load();show('home')
+}
+
+async function loadTables(){
+  let {data}=await db.from('wedding_tables').select('id,name,points').eq('is_active',true).order('points',{ascending:false});
+  board=data||[];renderHome();renderRank();renderScreen()
+}
+async function loadMission(){
+  if(!gid()||!sec()){mission=null;renderMission();return}
+  let {data,error}=await db.rpc('get_active_photo_mission',{p_guest_id:gid(),p_guest_secret:sec()});
+  if(error){mission=null;renderMission();return}
+  mission=data;renderMission()
+}
+async function loadTrivia(){
+  let {data}=await db.rpc('get_live_trivia');if(data)live=data;
+  renderTrivia();renderHome();renderScreen();renderAdmin()
+}
+async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia()])}
+
+function renderHome(){
+  let tid=localStorage.getItem('tid'),own=board.find(x=>x.id===tid),i=board.findIndex(x=>x.id===tid);
+  $('gn').textContent=localStorage.getItem('gname')||'Invitado';$('ht').textContent=own?.name||localStorage.getItem('tname')||'—';
+  $('rtn').textContent=own?.name||'—';$('hp').textContent=own?.points||0;$('hr').textContent=i>=0?'#'+(i+1):'#—';
+  if(live.status==='open'){$('hqt').textContent=`Pregunta ${live.display_order}/${live.total_questions}: ${live.question}`;$('hqs').textContent=`${live.response_count} respuestas recibidas.`}
+  else if(live.status==='reveal'){$('hqt').textContent=`Resultado pregunta ${live.display_order}`;$('hqs').textContent=live.reveal_text||''}
+  else{$('hqt').textContent='Esperando la próxima pregunta…';$('hqs').textContent='Cuando se abra una pregunta, aparece acá.'}
+}
+
+function key(){return 'q_'+live.question_id}
+function renderTrivia(){
+  if(!$('tb'))return;let e=$('tb'),sel=localStorage.getItem(key());
+  if(live.status==='idle')return e.innerHTML='<div class="card"><h2>Esperando la próxima pregunta…</h2></div>';
+  if(live.status==='open'){
+    if(sel)return e.innerHTML=`<div class="card"><h2>Respuesta registrada ✓</h2><p>Elegiste <b>${esc(sel)}</b>. La correcta se revela después.</p></div>`;
+    e.innerHTML=`<div class="card"><div class="ey">Pregunta ${live.display_order}/${live.total_questions} · +10 puntos</div><h2>${esc(live.question)}</h2>${(live.options||[]).map(o=>`<button class="choice" onclick="answer('${esc(o.key)}')"><b>${esc(o.key)}</b> ${esc(o.label)}</button>`).join('')}</div>`;
+    return
+  }
+  if(live.status==='closed')return e.innerHTML='<div class="card"><h2>Respuestas cerradas 🔒</h2></div>';
+  let c=live.option_counts||{},tot=Math.max(live.response_count||0,1);
+  e.innerHTML=`<div class="card"><h2>${sel===live.correct_option?'¡Correcto! +10 🎉':'Resultado'}</h2>${(live.options||[]).map(o=>`<div class="choice ${o.key===live.correct_option?'correct':sel===o.key?'wrong':''}"><b>${esc(o.key)}</b> ${esc(o.label)} · ${Math.round((c[o.key]||0)/tot*100)}%</div>`).join('')}<p>${esc(live.reveal_text||'')}</p></div>`
+}
+async function answer(o){
+  let {data,error}=await db.rpc('answer_trivia',{p_guest_id:gid(),p_guest_secret:sec(),p_question_id:live.question_id,p_option:o});
+  if(error)return toast('No pudimos registrar');
+  if(data?.accepted)localStorage.setItem(key(),o);
+  await loadTrivia();toast('Respuesta registrada ✓')
+}
+
+function missionPhotoUrl(path){
+  if(!path)return '';
+  return db.storage.from('mission-photos').getPublicUrl(path).data.publicUrl
+}
+function clearMissionSelection(){
+  selectedMissionFile=null;
+  if(selectedMissionUrl){URL.revokeObjectURL(selectedMissionUrl);selectedMissionUrl=null}
+  if($('missionFile'))$('missionFile').value=''
+}
+function renderMission(){
+  const e=$('missionBody'); if(!e)return;
+  if(!mission||mission.active===false){
+    e.innerHTML='<div class="card"><div class="ey">Misiones</div><h2>No hay una misión activa por ahora.</h2><p class="lead">Cuando lancemos la próxima, va a aparecer acá.</p></div>';
+    return
+  }
+  const status=mission.status||'not_started';
+  const photo=mission.photo_path?missionPhotoUrl(mission.photo_path):'';
+  const head=`<div class="ey" style="color:#baa">📸 Misión ${mission.display_order||''} · <span class="points-pill">+${mission.points} pts</span></div><h2>${esc(mission.title)}</h2><p>${esc(mission.description)}</p>`;
+  if(status==='pending'){
+    e.innerHTML=`<div class="feature">${head}${photo?`<img class="mission-preview" src="${photo}" alt="Foto enviada por tu mesa">`:''}<div class="notice pending" style="color:#181511"><b>⏳ Foto enviada</b><br><span class="small">Está esperando aprobación. Mientras tanto, la mesa no puede subir otra.</span></div></div>`;
+    return
+  }
+  if(status==='approved'){
+    e.innerHTML=`<div class="feature">${head}${photo?`<img class="mission-preview" src="${photo}" alt="Foto aprobada de la misión">`:''}<div class="notice approved" style="color:#181511"><b>✅ ¡Misión cumplida!</b><br>+${mission.points_awarded||mission.points} puntos para ${esc(localStorage.getItem('tname')||'tu mesa')}.</div></div>`;
+    return
+  }
+  if(status==='uploading'&&!selectedMissionFile){
+    e.innerHTML=`<div class="feature">${head}<div class="notice pending" style="color:#181511"><b>📤 Hay una carga en curso</b><br><span class="small">Alguien de tu mesa ya empezó a subir una foto. Si quedó trabada, en unos minutos podrán volver a intentar.</span></div></div>`;
+    return
+  }
+  const rejected=status==='rejected'?'<div class="notice rejected" style="color:#181511"><b>❌ Esa foto no pasó la revisión.</b><br><span class="small">No pasa nada: pueden mandar otra.</span></div>':'';
+  const preview=selectedMissionUrl?`<img class="mission-preview" src="${selectedMissionUrl}" alt="Vista previa de la foto"><button class="btn" style="background:white;color:#181511;margin-top:12px" onclick="uploadMissionPhoto()" ${missionUploading?'disabled':''}>${missionUploading?'SUBIENDO…':'ENVIAR ESTA FOTO'}</button><button class="btn secondary" style="margin-top:8px" onclick="$('missionFile').click()" ${missionUploading?'disabled':''}>CAMBIAR FOTO</button>`:`<button class="btn" style="background:white;color:#181511" onclick="$('missionFile').click()">SUBIR FOTO</button><p class="small" style="color:#bbb;text-align:center">Una sola foto válida por mesa para esta misión.</p>`;
+  e.innerHTML=`<div class="feature">${head}${rejected}${preview}</div>`
+}
+function normalizeMime(file){
+  let t=(file.type||'').toLowerCase();
+  if(['image/jpeg','image/png','image/webp','image/heic','image/heif'].includes(t))return t;
+  let n=(file.name||'').toLowerCase();
+  if(n.endsWith('.jpg')||n.endsWith('.jpeg'))return 'image/jpeg';
+  if(n.endsWith('.png'))return 'image/png';
+  if(n.endsWith('.webp'))return 'image/webp';
+  if(n.endsWith('.heic'))return 'image/heic';
+  if(n.endsWith('.heif'))return 'image/heif';
+  return ''
+}
+function missionFileChosen(ev){
+  const f=ev.target.files?.[0];if(!f)return;
+  const mime=normalizeMime(f);
+  if(!mime){ev.target.value='';return toast('Usá una foto JPG, PNG, WEBP o HEIC')}
+  if(f.size>20*1024*1024){ev.target.value='';return toast('La foto supera 20 MB')}
+  clearMissionSelection();selectedMissionFile=f;selectedMissionUrl=URL.createObjectURL(f);renderMission()
+}
+async function uploadMissionPhoto(){
+  if(!selectedMissionFile||!mission?.mission_id||missionUploading)return;
+  missionUploading=true;renderMission();
+  const mime=normalizeMime(selectedMissionFile);
+  const {data:start,error:startErr}=await db.rpc('start_mission_photo_upload',{
+    p_guest_id:gid(),p_guest_secret:sec(),p_mission_id:mission.mission_id,p_mime_type:mime
+  });
+  if(startErr){missionUploading=false;renderMission();return toast('No pudimos iniciar la carga')}
+  if(!start?.accepted){
+    missionUploading=false;clearMissionSelection();await loadMission();
+    return toast(start?.status==='approved'?'La misión ya está aprobada':start?.status==='pending'?'Tu mesa ya envió una foto':'Alguien ya está subiendo una foto')
+  }
+  const {error:upErr}=await db.storage.from(start.bucket).upload(start.path,selectedMissionFile,{cacheControl:'3600',upsert:false,contentType:mime});
+  if(upErr){missionUploading=false;renderMission();return toast('Falló la subida. Probá de nuevo')}
+  const {error:finishErr}=await db.rpc('finish_mission_photo_upload',{p_guest_id:gid(),p_guest_secret:sec(),p_submission_id:start.submission_id});
+  missionUploading=false;
+  if(finishErr){renderMission();return toast('La foto subió, pero faltó confirmar. Reintentá')}
+  clearMissionSelection();await loadMission();toast('Foto enviada para aprobación ✓')
+}
+
+function renderRank(){
+  $('scores').innerHTML=board.map((r,i)=>`<div class="score"><span>${i+1}</span><b>${i<3?['🥇 ','🥈 ','🥉 '][i]:''}${esc(r.name)}</b><b>${r.points}</b></div>`).join('')
+}
+
+async function adminLogin(){sessionStorage.setItem('ak',$('akey').value.trim());await adminRefresh()}
+async function adminRefresh(){
+  let k=sessionStorage.getItem('ak');if(!k)return;
+  const [tr,ms]=await Promise.all([
+    db.rpc('admin_trivia_dashboard',{p_admin_key:k}),
+    db.rpc('admin_mission_dashboard',{p_admin_key:k})
+  ]);
+  if(tr.error||ms.error)return toast('Clave incorrecta');
+  dash=tr.data;mdash=ms.data;$('alog').classList.add('hidden');$('ap').classList.remove('hidden');renderAdmin()
+}
+function renderAdmin(){
+  if(!dash||!$('ap'))return;
+  $('ast').textContent=(dash.state?.status||'idle').toUpperCase();
+  $('aq').innerHTML=(dash.questions||[]).map(q=>`<div class="adminq"><b>${q.order}. ${esc(q.question)}</b><button class="btn" style="margin-top:6px" onclick="adminOpen(${q.id})">ABRIR</button></div>`).join('');
+  renderMissionAdmin()
+}
+async function adminOpen(id){await adminAction('open',id)}
+async function adminAction(a,id=null){
+  let {error}=await db.rpc('admin_trivia_action',{p_admin_key:sessionStorage.getItem('ak'),p_action:a,p_question_id:id});
+  if(error)return toast('Error de control');
+  await Promise.all([adminRefresh(),loadTables(),loadTrivia()])
+}
+
+function renderMissionAdmin(){
+  if(!mdash)return;
+  const missions=mdash.missions||[],active=mdash.active_mission_id;
+  $('admMissions').innerHTML=missions.map(m=>`
+    <div class="adminq">
+      <div class="row">
+        <div><b>${m.display_order}. ${esc(m.title)}</b><div class="small">+${m.points} puntos</div></div>
+        ${Number(active)===Number(m.id)?'<span class="badge live">ACTIVA</span>':'<span class="badge">EN ESPERA</span>'}
+      </div>
+      ${Number(active)===Number(m.id)?'':`<button class="btn" style="margin-top:8px" onclick="missionAdminAction('activate',${m.id})">ACTIVAR MISIÓN</button>`}
+    </div>`).join('');
+  const pending=(mdash.submissions||[]).filter(s=>s.status==='pending');
+  if(!pending.length){
+    $('admSubmissions').innerHTML='<p class="lead">No hay fotos pendientes.</p>';
+    return
+  }
+  $('admSubmissions').innerHTML=pending.map(s=>{
+    const m=missions.find(x=>Number(x.id)===Number(s.mission_id));
+    const url=missionPhotoUrl(s.photo_path);
+    return `<div class="admin-submission">
+      <div class="ey">${esc(s.table_name)} · MISIÓN ${m?.display_order||''}</div>
+      <h2 style="margin:6px 0">${esc(m?.title||'Misión')}</h2>
+      <div class="small">Subió: ${esc(s.guest_name)}</div>
+      <img class="admin-photo" src="${url}" alt="Foto pendiente de ${esc(s.table_name)}">
+      <div class="mission-admin-actions">
+        <button class="btn" onclick="missionAdminAction('approve',null,${s.id})">✅ APROBAR</button>
+        <button class="btn danger" onclick="missionAdminAction('reject',null,${s.id})">✕ RECHAZAR</button>
+      </div>
+    </div>`
+  }).join('')
+}
+async function missionAdminAction(action,missionId=null,submissionId=null){
+  const {data,error}=await db.rpc('admin_mission_action',{
+    p_admin_key:sessionStorage.getItem('ak'),
+    p_action:action,
+    p_mission_id:missionId,
+    p_submission_id:submissionId
+  });
+  if(error)return toast('No pudimos ejecutar esa acción');
+  await Promise.all([adminRefresh(),loadTables(),loadMission()]);
+  if(action==='approve')toast(`Foto aprobada · +${data?.points_awarded||0} pts`);
+  else if(action==='reject')toast('Foto rechazada');
+  else if(action==='activate')toast('Misión activada');
+  else toast('Misiones pausadas')
+}
+
+function renderScreen(){
+  if(!$('sb'))return;
+  if(live.status==='open'||live.status==='closed'){
+    $('sb').innerHTML=`<div class="ey" style="color:#d3b075">TRIVIA EN VIVO · PREGUNTA ${live.display_order}/${live.total_questions}</div><h1>${esc(live.question)}</h1><h1>${live.response_count} / ${live.total_expected}</h1>${(live.table_participation||[]).map(p=>`<div class="screenrow"><span>${esc(p.name)}</span><b>${p.responses}/${p.expected}</b></div>`).join('')}`;
+    return
+  }
+  if(live.status==='reveal'){
+    let c=live.option_counts||{},tot=Math.max(live.response_count||0,1);
+    $('sb').innerHTML=`<div class="ey" style="color:#d3b075">RESULTADO · PREGUNTA ${live.display_order}</div><h1>${esc(live.question)}</h1>${(live.options||[]).map(o=>`<div class="screenrow"><span>${o.key===live.correct_option?'✅ ':''}${esc(o.label)}</span><b>${Math.round((c[o.key]||0)/tot*100)}%</b></div>`).join('')}<h2>${live.correct_count} aciertos · +${(live.correct_count||0)*10} pts</h2>`;
+    return
+  }
+  $('sb').innerHTML=`<div class="ey" style="color:#d3b075">COPA DE LAS MESAS</div><h1>Ranking en vivo</h1>${board.map((r,i)=>`<div class="screenrow"><span>${i+1}. ${esc(r.name)}</span><b>${r.points}</b></div>`).join('')}`
+}
+function sub(){
+  chs=[
+    db.channel('t').on('postgres_changes',{event:'UPDATE',schema:'public',table:'wedding_tables'},async()=>{await loadTables();await loadMission()}).subscribe(),
+    db.channel('e').on('postgres_changes',{event:'UPDATE',schema:'public',table:'event_state',filter:'id=eq.1'},async()=>{await loadTrivia();await loadMission();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe(),
+    db.channel('a').on('postgres_changes',{event:'INSERT',schema:'public',table:'trivia_answers'},loadTrivia).subscribe()
+  ]
+}
+async function boot(){
+  let p=location.pathname;
+  if(p==='/screen'||p==='/screen/'){
+    $('app').classList.add('hidden');$('nav').classList.add('hidden');$('screen').classList.remove('hidden');await load();sub();return
+  }
+  if(p==='/admin'||p==='/admin/'||p==='/control'||p==='/control/'){
+    $('join').classList.add('hidden');$('admin').classList.remove('hidden');$('nav').classList.add('hidden');await load();sub();if(sessionStorage.getItem('ak'))await adminRefresh();return
+  }
+  if(p==='/firmas'||p==='/firmas/'){await load();sub();show('signatures');return}
+  if(p==='/musica'||p==='/musica/'){await load();sub();show('music');return}
+  if(p==='/pedile-un-tema'||p==='/pedile-un-tema/'){await load();sub();show('dj');return}
+  $('jt').textContent=tm[code()]||'tu mesa';await load();sub();show(gid()&&sec()?'home':'join')
+}
+boot();
+</script>
+</body>
+</html>
