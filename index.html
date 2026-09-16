@@ -457,8 +457,8 @@ async function resetGameAdmin(){
   if(!first)return;
   const typed=prompt('Para confirmar, escribí RESET');
   if((typed||'').trim().toUpperCase()!=='RESET')return toast('Reset cancelado');
-  const {data,error}=await db.rpc('admin_reset_game',{p_admin_key:sessionStorage.getItem('ak')});
-  if(error)return toast('No pudimos resetear');
+  const {data,error}=await db.rpc('admin_trivia_action',{p_admin_key:sessionStorage.getItem('ak'),p_action:'reset_game',p_question_id:null});
+  if(error){console.error('Reset error',error);return toast('No pudimos resetear: '+(error.message||'error'));}
   Object.keys(localStorage).filter(k=>k.startsWith('q_')).forEach(k=>localStorage.removeItem(k));
   if(data?.game_version!=null)localStorage.setItem('game_version',String(data.game_version));
   clearMissionSelection();
