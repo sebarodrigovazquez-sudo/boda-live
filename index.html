@@ -28,6 +28,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
 .notice{border-radius:18px;padding:15px;margin-top:14px}.notice.pending{background:#fff7e8}.notice.approved{background:#edf6ef}.notice.rejected{background:#faefed}
 .badge{display:inline-block;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900;background:#eee4d8}.badge.live{background:#181511;color:white}.mission-admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .admin-submission{padding:16px 0;border-bottom:1px solid var(--l)}.admin-submission:last-child{border-bottom:0}.points-pill{display:inline-block;background:#fff;color:#181511;padding:7px 10px;border-radius:999px;font-weight:900;font-size:12px}
+.admin-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.kpi{background:#f5eee6;border:1px solid var(--l);border-radius:16px;padding:12px;text-align:center}.kpi b{display:block;font-size:22px;font-family:Georgia,serif;font-weight:400}.mission-progress{height:9px;background:#eee4d8;border-radius:999px;overflow:hidden;margin:10px 0 4px}.mission-progress i{display:block;height:100%;background:var(--g);border-radius:999px}.admin-screen-preview{background:#181511;color:#fff;border-radius:20px;padding:16px;margin-top:12px}.admin-screen-preview .small{color:#cfc7bf}.admin-approved-row{display:grid;grid-template-columns:62px 1fr;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--l)}.admin-approved-row:last-child{border-bottom:0}.admin-approved-row img{width:62px;height:62px;object-fit:cover;border-radius:12px}.screen-mission{width:min(1180px,92vw);margin:auto}.screen-mission h1{font-size:4vw;margin:.35em 0}.screen-mission p{font-size:1.5vw;color:#d6cec6;max-width:900px}.screen-photo{display:block;width:100%;max-height:54vh;object-fit:contain;background:#0e0d0c;border-radius:22px;margin-top:2vw}.screen-caption{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-top:1vw;font-size:1.4vw;color:#d6cec6}.screen-progress{height:12px;background:#ffffff22;border-radius:999px;overflow:hidden;margin-top:1.2vw}.screen-progress i{display:block;height:100%;background:var(--g)}
 </style>
 </head>
 <body>
@@ -97,14 +98,26 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
     <div class="card">
       <div class="ey">Misiones fotográficas</div>
       <h2 style="margin-bottom:6px">Control de misiones</h2>
-      <p class="lead" style="margin-top:0">Activá una misión cuando corresponda. Sólo una puede estar en juego a la vez.</p>
+      <p class="lead" style="margin-top:0">Activá una misión según el momento de la noche. Sólo una puede estar en juego a la vez.</p>
+      <div id="admMissionSummary"></div>
       <div id="admMissions"></div>
       <button class="btn secondary" style="margin-top:12px" onclick="missionAdminAction('deactivate')">PAUSAR MISIONES</button>
     </div>
     <div class="card">
       <div class="ey">Moderación</div>
-      <h2>Fotos por aprobar</h2>
+      <h2>Fotos por aprobar <span id="admPendingBadge" class="badge">0</span></h2>
       <div id="admSubmissions"></div>
+    </div>
+    <div class="card">
+      <div class="ey">Últimas aprobadas</div>
+      <h2>Misiones cumplidas</h2>
+      <div id="admApproved"></div>
+    </div>
+    <div class="card">
+      <div class="ey">Pantalla del salón</div>
+      <h2>Vista previa</h2>
+      <div id="admScreenPreview"></div>
+      <a class="btn secondary" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="/screen" target="_blank">ABRIR /SCREEN ↗</a>
     </div>
   </div>
 </section>
@@ -126,7 +139,7 @@ const db=supabase.createClient(
   {auth:{persistSession:false}}
 );
 const tm={QP7K2M:'Quiubo pues',QK9R4X:'Qué quilombo',MG6T8P:'Merequetengue',AM3V7N:'Asu mare',AF8C5L:'Alta fiesta',NT4J9B:'No sea toche',LR2H6S:'La raja po'};
-let board=[],mission=null,live={status:'idle'},dash=null,mdash=null,chs=[],selectedMissionFile=null,selectedMissionUrl=null,missionUploading=false;
+let board=[],mission=null,screenMission={status:'idle'},live={status:'idle'},dash=null,mdash=null,chs=[],selectedMissionFile=null,selectedMissionUrl=null,missionUploading=false,screenPhotoIndex=0,screenCarousel=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
@@ -162,11 +175,18 @@ async function loadMission(){
   if(error){mission=null;renderMission();return}
   mission=data;renderMission()
 }
+async function loadScreenMission(){
+  let {data,error}=await db.rpc('get_live_mission_screen');
+  screenMission=error?{status:'idle'}:(data||{status:'idle'});
+  const n=(screenMission.photos||[]).length;
+  if(n && screenPhotoIndex>=n)screenPhotoIndex=0;
+  renderScreen();renderAdminScreenPreview()
+}
 async function loadTrivia(){
   let {data}=await db.rpc('get_live_trivia');if(data)live=data;
   renderTrivia();renderHome();renderScreen();renderAdmin()
 }
-async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia()])}
+async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia(),loadScreenMission()])}
 
 function renderHome(){
   let tid=localStorage.getItem('tid'),own=board.find(x=>x.id===tid),i=board.findIndex(x=>x.id===tid);
@@ -278,16 +298,20 @@ async function adminRefresh(){
   let k=sessionStorage.getItem('ak');if(!k)return;
   const [tr,ms]=await Promise.all([
     db.rpc('admin_trivia_dashboard',{p_admin_key:k}),
-    db.rpc('admin_mission_dashboard',{p_admin_key:k})
+    db.rpc('admin_mission_overview',{p_admin_key:k})
   ]);
-  if(tr.error||ms.error)return toast('Clave incorrecta');
+  if(tr.error||ms.error){
+    sessionStorage.removeItem('ak');
+    $('alog').classList.remove('hidden');$('ap').classList.add('hidden');
+    return toast('Clave incorrecta');
+  }
   dash=tr.data;mdash=ms.data;$('alog').classList.add('hidden');$('ap').classList.remove('hidden');renderAdmin()
 }
 function renderAdmin(){
   if(!dash||!$('ap'))return;
   $('ast').textContent=(dash.state?.status||'idle').toUpperCase();
   $('aq').innerHTML=(dash.questions||[]).map(q=>`<div class="adminq"><b>${q.order}. ${esc(q.question)}</b><button class="btn" style="margin-top:6px" onclick="adminOpen(${q.id})">ABRIR</button></div>`).join('');
-  renderMissionAdmin()
+  renderMissionAdmin();renderAdminScreenPreview()
 }
 async function adminOpen(id){await adminAction('open',id)}
 async function adminAction(a,id=null){
@@ -298,34 +322,80 @@ async function adminAction(a,id=null){
 
 function renderMissionAdmin(){
   if(!mdash)return;
-  const missions=mdash.missions||[],active=mdash.active_mission_id;
-  $('admMissions').innerHTML=missions.map(m=>`
-    <div class="adminq">
+  const missions=mdash.missions||[],active=mdash.active_mission_id,total=mdash.total_tables||board.length||0;
+  const activeMission=missions.find(m=>Number(m.id)===Number(active));
+  const approved=activeMission?.approved_count||0,pendingCount=activeMission?.pending_count||0;
+  if($('admMissionSummary')){
+    $('admMissionSummary').innerHTML=activeMission?`
+      <div class="admin-screen-preview">
+        <div class="ey" style="color:#d3b075">MISIÓN ACTIVA · ${activeMission.display_order}/5</div>
+        <h2 style="margin:7px 0">${esc(activeMission.title)}</h2>
+        <div class="admin-kpis">
+          <div class="kpi" style="color:#181511"><b>${approved}/${total}</b><span class="small">aprobadas</span></div>
+          <div class="kpi" style="color:#181511"><b>${pendingCount}</b><span class="small">pendientes</span></div>
+          <div class="kpi" style="color:#181511"><b>+${activeMission.points}</b><span class="small">pts</span></div>
+        </div>
+        <div class="mission-progress"><i style="width:${total?Math.min(100,approved/total*100):0}%"></i></div>
+      </div>`:
+      `<div class="notice pending"><b>⏸ Misiones pausadas</b><br><span class="small">Activá una cuando llegue el momento.</span></div>`;
+  }
+  $('admMissions').innerHTML=missions.map(m=>{
+    const isActive=Number(active)===Number(m.id),done=m.approved_count||0,pend=m.pending_count||0;
+    return `<div class="adminq">
       <div class="row">
-        <div><b>${m.display_order}. ${esc(m.title)}</b><div class="small">+${m.points} puntos</div></div>
-        ${Number(active)===Number(m.id)?'<span class="badge live">ACTIVA</span>':'<span class="badge">EN ESPERA</span>'}
+        <div><b>${m.display_order}. ${esc(m.title)}</b><div class="small">+${m.points} pts · ${done}/${total} aprobadas${pend?` · ${pend} pendientes`:''}</div></div>
+        ${isActive?'<span class="badge live">ACTIVA</span>':'<span class="badge">EN ESPERA</span>'}
       </div>
-      ${Number(active)===Number(m.id)?'':`<button class="btn" style="margin-top:8px" onclick="missionAdminAction('activate',${m.id})">ACTIVAR MISIÓN</button>`}
-    </div>`).join('');
-  const pending=(mdash.submissions||[]).filter(s=>s.status==='pending');
+      <div class="mission-progress"><i style="width:${total?Math.min(100,done/total*100):0}%"></i></div>
+      ${isActive?'':`<button class="btn" style="margin-top:8px" onclick="missionAdminAction('activate',${m.id})">ACTIVAR MISIÓN</button>`}
+    </div>`
+  }).join('');
+  const pending=mdash.pending||[];
+  if($('admPendingBadge'))$('admPendingBadge').textContent=pending.length;
   if(!pending.length){
-    $('admSubmissions').innerHTML='<p class="lead">No hay fotos pendientes.</p>';
+    $('admSubmissions').innerHTML='<p class="lead">No hay fotos pendientes. Todo al día ✓</p>';
+  }else{
+    $('admSubmissions').innerHTML=pending.map(s=>{
+      const m=missions.find(x=>Number(x.id)===Number(s.mission_id));
+      const url=missionPhotoUrl(s.photo_path);
+      return `<div class="admin-submission">
+        <div class="ey">${esc(s.table_name)} · MISIÓN ${m?.display_order||''}</div>
+        <h2 style="margin:6px 0">${esc(m?.title||'Misión')}</h2>
+        <div class="small">Subió: ${esc(s.guest_name)}</div>
+        <img class="admin-photo" src="${url}" alt="Foto pendiente de ${esc(s.table_name)}">
+        <div class="mission-admin-actions">
+          <button class="btn" onclick="missionAdminAction('approve',null,${s.id})">✅ APROBAR</button>
+          <button class="btn danger" onclick="missionAdminAction('reject',null,${s.id})">✕ RECHAZAR</button>
+        </div>
+      </div>`
+    }).join('');
+  }
+  const recent=mdash.recent_approved||[];
+  if($('admApproved')){
+    $('admApproved').innerHTML=recent.length?recent.slice(0,6).map(s=>{
+      const m=missions.find(x=>Number(x.id)===Number(s.mission_id));
+      return `<div class="admin-approved-row">
+        <img src="${missionPhotoUrl(s.photo_path)}" alt="Foto aprobada">
+        <div><b>${esc(s.table_name)}</b><div class="small">${esc(m?.title||'Misión')} · +${s.points_awarded||m?.points||0} pts</div></div>
+      </div>`
+    }).join(''):'<p class="lead">Todavía no aprobaste ninguna misión.</p>';
+  }
+}
+function renderAdminScreenPreview(){
+  if(!$('admScreenPreview'))return;
+  if(live.status==='open'||live.status==='closed'){
+    $('admScreenPreview').innerHTML=`<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA</div><b>🧠 Trivia · Pregunta ${live.display_order||''}</b><div class="small">${live.response_count||0} respuestas recibidas</div></div>`;
     return
   }
-  $('admSubmissions').innerHTML=pending.map(s=>{
-    const m=missions.find(x=>Number(x.id)===Number(s.mission_id));
-    const url=missionPhotoUrl(s.photo_path);
-    return `<div class="admin-submission">
-      <div class="ey">${esc(s.table_name)} · MISIÓN ${m?.display_order||''}</div>
-      <h2 style="margin:6px 0">${esc(m?.title||'Misión')}</h2>
-      <div class="small">Subió: ${esc(s.guest_name)}</div>
-      <img class="admin-photo" src="${url}" alt="Foto pendiente de ${esc(s.table_name)}">
-      <div class="mission-admin-actions">
-        <button class="btn" onclick="missionAdminAction('approve',null,${s.id})">✅ APROBAR</button>
-        <button class="btn danger" onclick="missionAdminAction('reject',null,${s.id})">✕ RECHAZAR</button>
-      </div>
-    </div>`
-  }).join('')
+  if(live.status==='reveal'){
+    $('admScreenPreview').innerHTML=`<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA</div><b>✨ Resultado de Trivia</b><div class="small">Pregunta ${live.display_order||''}</div></div>`;
+    return
+  }
+  if(screenMission?.status==='active'){
+    $('admScreenPreview').innerHTML=`<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA</div><b>📸 ${esc(screenMission.title)}</b><div class="small">${screenMission.approved_count||0}/${screenMission.total_tables||0} mesas aprobadas · ${(screenMission.photos||[]).length} fotos en carrusel</div></div>`;
+    return
+  }
+  $('admScreenPreview').innerHTML='<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA</div><b>🏆 Ranking en vivo</b><div class="small">Sin trivia ni misión activa.</div></div>'
 }
 async function missionAdminAction(action,missionId=null,submissionId=null){
   const {data,error}=await db.rpc('admin_mission_action',{
@@ -335,7 +405,7 @@ async function missionAdminAction(action,missionId=null,submissionId=null){
     p_submission_id:submissionId
   });
   if(error)return toast('No pudimos ejecutar esa acción');
-  await Promise.all([adminRefresh(),loadTables(),loadMission()]);
+  await Promise.all([adminRefresh(),loadTables(),loadMission(),loadScreenMission()]);
   if(action==='approve')toast(`Foto aprobada · +${data?.points_awarded||0} pts`);
   else if(action==='reject')toast('Foto rechazada');
   else if(action==='activate')toast('Misión activada');
@@ -353,19 +423,35 @@ function renderScreen(){
     $('sb').innerHTML=`<div class="ey" style="color:#d3b075">RESULTADO · PREGUNTA ${live.display_order}</div><h1>${esc(live.question)}</h1>${(live.options||[]).map(o=>`<div class="screenrow"><span>${o.key===live.correct_option?'✅ ':''}${esc(o.label)}</span><b>${Math.round((c[o.key]||0)/tot*100)}%</b></div>`).join('')}<h2>${live.correct_count} aciertos · +${(live.correct_count||0)*10} pts</h2>`;
     return
   }
+  if(screenMission?.status==='active'){
+    const photos=screenMission.photos||[],photo=photos.length?photos[screenPhotoIndex%photos.length]:null;
+    const done=screenMission.approved_count||0,total=screenMission.total_tables||0;
+    $('sb').innerHTML=`<div class="screen-mission">
+      <div class="ey" style="color:#d3b075">📸 MISIÓN ACTIVA · ${screenMission.display_order}/5 · +${screenMission.points} PTS</div>
+      <h1>${esc(screenMission.title)}</h1>
+      <p>${esc(screenMission.description)}</p>
+      <div class="screen-progress"><i style="width:${total?Math.min(100,done/total*100):0}%"></i></div>
+      <div class="screen-caption"><span><b>${done}/${total}</b> mesas ya la cumplieron</span><span>${screenMission.pending_count||0} esperando aprobación</span></div>
+      ${photo?`<img class="screen-photo" src="${missionPhotoUrl(photo.photo_path)}" alt="Foto aprobada"><div class="screen-caption"><span>✅ ${esc(photo.table_name)}</span><span>${photos.length>1?`${(screenPhotoIndex%photos.length)+1}/${photos.length}`:'Foto aprobada'}</span></div>`:`<div style="padding:8vh 0;text-align:center;color:#d6cec6;font-size:2vw">Esperando las primeras fotos…</div>`}
+    </div>`;
+    return
+  }
   $('sb').innerHTML=`<div class="ey" style="color:#d3b075">COPA DE LAS MESAS</div><h1>Ranking en vivo</h1>${board.map((r,i)=>`<div class="screenrow"><span>${i+1}. ${esc(r.name)}</span><b>${r.points}</b></div>`).join('')}`
 }
 function sub(){
   chs=[
-    db.channel('t').on('postgres_changes',{event:'UPDATE',schema:'public',table:'wedding_tables'},async()=>{await loadTables();await loadMission()}).subscribe(),
-    db.channel('e').on('postgres_changes',{event:'UPDATE',schema:'public',table:'event_state',filter:'id=eq.1'},async()=>{await loadTrivia();await loadMission();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe(),
-    db.channel('a').on('postgres_changes',{event:'INSERT',schema:'public',table:'trivia_answers'},loadTrivia).subscribe()
+    db.channel('t').on('postgres_changes',{event:'UPDATE',schema:'public',table:'wedding_tables'},async()=>{await loadTables();await loadMission();await loadScreenMission()}).subscribe(),
+    db.channel('e').on('postgres_changes',{event:'UPDATE',schema:'public',table:'event_state',filter:'id=eq.1'},async()=>{await loadTrivia();await loadMission();await loadScreenMission();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe(),
+    db.channel('a').on('postgres_changes',{event:'INSERT',schema:'public',table:'trivia_answers'},loadTrivia).subscribe(),
+    db.channel('ms').on('postgres_changes',{event:'*',schema:'public',table:'mission_submissions'},async()=>{await loadMission();await loadScreenMission();await loadTables();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe()
   ]
 }
 async function boot(){
   let p=location.pathname;
   if(p==='/screen'||p==='/screen/'){
-    $('app').classList.add('hidden');$('nav').classList.add('hidden');$('screen').classList.remove('hidden');await load();sub();return
+    $('app').classList.add('hidden');$('nav').classList.add('hidden');$('screen').classList.remove('hidden');await load();sub();
+    screenCarousel=setInterval(()=>{const n=(screenMission.photos||[]).length;if(n>1){screenPhotoIndex=(screenPhotoIndex+1)%n;renderScreen()}},7000);
+    return
   }
   if(p==='/admin'||p==='/admin/'||p==='/control'||p==='/control/'){
     $('join').classList.add('hidden');$('admin').classList.remove('hidden');$('nav').classList.add('hidden');await load();sub();if(sessionStorage.getItem('ak'))await adminRefresh();return
