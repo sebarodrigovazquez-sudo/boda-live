@@ -52,6 +52,35 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
 .screen-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.screen-mode-btn{border:1px solid var(--l);background:#fff;color:var(--i);border-radius:14px;padding:11px 6px;font-size:11px;font-weight:900}.screen-mode-btn.active{background:#181511;color:#fff;border-color:#181511}.screen-mode-help{margin-top:8px;font-size:11px;color:var(--m)}
 .screen-fade{animation:screenFade .45s ease both}@keyframes screenFade{from{opacity:.15;transform:scale(.994)}to{opacity:1;transform:scale(1)}}
 
+/* SCREEN V3 · contenido dinámico + ranking permanente */
+.screen-shell{position:relative;z-index:1;min-height:100vh;width:100%;display:grid;grid-template-columns:minmax(0,1fr) 27vw}
+.screen-main{position:relative;min-width:0;min-height:100vh;overflow:hidden}
+.ranking-rail{min-height:100vh;border-left:1px solid #ffffff18;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));padding:3.4vh 1.45vw 2.8vh;display:flex;flex-direction:column;backdrop-filter:blur(8px)}
+.rail-kicker{font-size:.78vw;letter-spacing:.18em;text-transform:uppercase;color:#d3b075;font-weight:900}
+.rail-title{font-family:Georgia,serif;font-size:2.05vw;font-weight:400;margin:.55vh 0 .35vh}
+.rail-live{font-size:.8vw;color:#bdb5ad;margin-bottom:1.7vh}
+.rail-list{display:grid;gap:.72vh;flex:1;align-content:start}
+.rail-row{display:grid;grid-template-columns:2.15vw minmax(0,1fr) auto;gap:.62vw;align-items:center;padding:1.02vh .72vw;border:1px solid #ffffff16;background:#ffffff08;border-radius:.78vw;min-height:7.4vh}
+.rail-row.first{background:#efe4d5;color:#181511;border-color:#efe4d5;box-shadow:0 1.2vw 3vw #0003}
+.rail-pos{width:2.15vw;height:2.15vw;border-radius:50%;display:grid;place-items:center;background:#ffffff10;font-size:.88vw;font-weight:900}
+.rail-row.first .rail-pos{background:#181511;color:#fff}
+.rail-name{font-family:Georgia,serif;font-size:1.17vw;line-height:1.05;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rail-score{text-align:right;font-size:.72vw;color:#bdb5ad;white-space:nowrap}
+.rail-score b{display:block;font-family:Georgia,serif;font-size:1.48vw;font-weight:400;color:#fff;line-height:1}
+.rail-row.first .rail-score,.rail-row.first .rail-score b{color:#181511}
+.rail-foot{border-top:1px solid #ffffff15;padding-top:1.25vh;margin-top:1.4vh;font-size:.72vw;color:#8f8880;display:flex;justify-content:space-between;gap:.8vw}
+.screen-main .stage{width:100%;padding:4.2vh 3.25vw}
+.screen-main .stage-top{left:3.25vw;right:3.25vw}
+.screen-main .screen-title{font-size:3.65vw;max-width:64vw}
+.screen-main .screen-subtitle{font-size:1.28vw;max-width:61vw}
+.screen-main .screen-options{max-width:64vw;gap:.9vw}.screen-main .screen-option{font-size:1.15vw;padding:1.05vw 1.2vw}.screen-main .screen-option .letter{width:2.25vw;height:2.25vw}
+.screen-main .response-wrap{max-width:64vw}.screen-main .response-line{font-size:1.02vw}.screen-main .response-line b{font-size:2.05vw}
+.screen-main .lock-icon{font-size:6vw}.screen-main .lock-wrap .screen-title{max-width:60vw}.screen-main .lock-wrap .screen-subtitle{max-width:56vw}
+.screen-main .result-grid{grid-template-columns:1.18fr .82fr;gap:2.5vw}.screen-main .result-option{font-size:1.02vw}.screen-main .result-stat{font-size:4.2vw}.screen-main .result-stat small{font-size:.92vw}
+.screen-main .rank-podium,.screen-main .rank-rest{max-width:64vw}.screen-main .rank-podium{gap:.9vw}.screen-main .podium-name{font-size:1.65vw}.screen-main .podium-points b{font-size:2.2vw}.screen-main .rank-row{font-size:.95vw}.screen-main .rank-row b{font-size:1.25vw}
+.screen-main .mission-stage{grid-template-columns:.86fr 1.14fr;gap:2.4vw}.screen-main .mission-copy .screen-title{font-size:3.4vw}.screen-main .mission-photo-big{height:61vh}.screen-main .mission-photo-meta{font-size:.92vw}.screen-main .mission-stat b{font-size:2.3vw}.screen-main .mission-stat span{font-size:.82vw}
+.screen-main .gallery-stage{width:100%}.screen-main .gallery-photo{width:100%;height:100vh}.screen-main .gallery-overlay{padding:7vh 3.25vw 4vh}.screen-main .gallery-overlay h2{font-size:2.35vw}.screen-main .gallery-overlay .meta{font-size:1vw}
+
 </style>
 </head>
 <body>
@@ -145,7 +174,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
         <button id="sm-mission" class="screen-mode-btn" onclick="screenAdminAction('mission')">MISIÓN</button>
         <button id="sm-photos" class="screen-mode-btn" onclick="screenAdminAction('photos')">FOTOS</button>
       </div>
-      <div class="screen-mode-help"><b>AUTO</b> prioriza Trivia; si no hay Trivia, alterna Misión y fotos aprobadas; si no hay misión, muestra Ranking.</div>
+      <div class="screen-mode-help"><b>El ranking queda siempre visible a la derecha.</b> AUTO prioriza Trivia; si no hay Trivia, alterna Misión y fotos aprobadas; si no hay misión, muestra el Ranking también en el panel principal.</div>
       <h2 style="margin-bottom:4px">Vista previa</h2>
       <div id="admScreenPreview"></div>
       <a class="btn secondary" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="/screen" target="_blank">ABRIR /SCREEN ↗</a>
@@ -491,25 +520,33 @@ function renderGalleryStage(){
   const p=photos[galleryPhotoIndex%photos.length];
   return `<div class="stage gallery-stage screen-fade"><div class="stage-top"><div class="stage-brand">MIGUE & SEBAS</div><div class="stage-date">FOTOS DE LA NOCHE</div></div><img class="gallery-photo" src="${missionPhotoUrl(p.photo_path)}" alt="Foto aprobada"><div class="gallery-overlay"><div><div class="screen-kicker">📸 ${esc(p.mission_title||'Misión cumplida')}</div><h2>${esc(p.table_name)}</h2><div class="meta">Misión ${p.mission_order||''}</div></div><div class="gallery-count">${(galleryPhotoIndex%photos.length)+1} / ${photos.length}</div></div></div>`
 }
+function renderRankingRail(){
+  const rows=(board||[]).slice().sort((a,b)=>(b.points||0)-(a.points||0));
+  const leader=rows[0];
+  return `<aside class="ranking-rail"><div class="rail-kicker">🏆 COPA DE LAS MESAS</div><h2 class="rail-title">Ranking en vivo</h2><div class="rail-live">Se actualiza automáticamente</div><div class="rail-list">${rows.map((r,i)=>`<div class="rail-row ${i===0?'first':''}"><div class="rail-pos">${i===0?'🥇':i+1}</div><div class="rail-name">${esc(r.name)}</div><div class="rail-score"><b>${r.points||0}</b>pts</div></div>`).join('')}</div><div class="rail-foot"><span>25 · 09 · 26</span><span>${leader?`Líder: ${esc(leader.name)}`:'Migue & Sebas'}</span></div></aside>`
+}
+function screenFrame(content){return `<div class="screen-shell"><div class="screen-main">${content}</div>${renderRankingRail()}</div>`}
 function renderScreen(){
   if(!$('sb'))return;
   const mode=effectiveScreenMode();
-  if(mode==='ranking'){ $('sb').innerHTML=renderRankingStage();return }
-  if(mode==='mission'){ $('sb').innerHTML=renderMissionStage(false);return }
-  if(mode==='mission-photo'){ $('sb').innerHTML=renderMissionStage(true);return }
-  if(mode==='photos'){ $('sb').innerHTML=renderGalleryStage();return }
-  if(mode==='trivia-open'){
+  let content='';
+  if(mode==='ranking')content=renderRankingStage();
+  else if(mode==='mission')content=renderMissionStage(false);
+  else if(mode==='mission-photo')content=renderMissionStage(true);
+  else if(mode==='photos')content=renderGalleryStage();
+  else if(mode==='trivia-open'){
     const pct=(live.total_expected||0)?Math.min(100,(live.response_count||0)/(live.total_expected||1)*100):0;
-    $('sb').innerHTML=stageShell(`<div class="screen-kicker">🧠 TRIVIA EN VIVO · PREGUNTA ${live.display_order}/${live.total_questions}</div><h1 class="screen-title">${esc(live.question)}</h1><div class="screen-options">${(live.options||[]).map(o=>`<div class="screen-option"><span class="letter">${esc(o.key)}</span><span>${esc(o.label)}</span></div>`).join('')}</div><div class="response-wrap"><div class="response-line"><span>Respuestas recibidas</span><b>${live.response_count||0} / ${live.total_expected||0}</b></div><div class="response-bar"><i style="width:${pct}%"></i></div></div>`);return
+    content=stageShell(`<div class="screen-kicker">🧠 TRIVIA EN VIVO · PREGUNTA ${live.display_order}/${live.total_questions}</div><h1 class="screen-title">${esc(live.question)}</h1><div class="screen-options">${(live.options||[]).map(o=>`<div class="screen-option"><span class="letter">${esc(o.key)}</span><span>${esc(o.label)}</span></div>`).join('')}</div><div class="response-wrap"><div class="response-line"><span>Respuestas recibidas</span><b>${live.response_count||0} / ${live.total_expected||0}</b></div><div class="response-bar"><i style="width:${pct}%"></i></div></div>`);
   }
-  if(mode==='trivia-closed'){
-    $('sb').innerHTML=stageShell(`<div class="lock-wrap"><div class="lock-icon">🔒</div><div class="screen-kicker">PREGUNTA ${live.display_order}/${live.total_questions}</div><h1 class="screen-title">Respuestas cerradas</h1><p class="screen-subtitle">${esc(live.question)}</p><p class="screen-subtitle"><b style="color:#fff">${live.response_count||0}</b> respuestas registradas · Esperando el resultado…</p></div>`);return
+  else if(mode==='trivia-closed'){
+    content=stageShell(`<div class="lock-wrap"><div class="lock-icon">🔒</div><div class="screen-kicker">PREGUNTA ${live.display_order}/${live.total_questions}</div><h1 class="screen-title">Respuestas cerradas</h1><p class="screen-subtitle">${esc(live.question)}</p><p class="screen-subtitle"><b style="color:#fff">${live.response_count||0}</b> respuestas registradas · Esperando el resultado…</p></div>`);
   }
-  if(mode==='trivia-reveal'){
+  else if(mode==='trivia-reveal'){
     const c=live.option_counts||{},tot=Math.max(live.response_count||0,1);
-    $('sb').innerHTML=stageShell(`<div class="result-grid"><div><div class="screen-kicker">✨ RESULTADO · PREGUNTA ${live.display_order}</div><h1 class="screen-title" style="font-size:3.6vw">${esc(live.question)}</h1><div class="result-options" style="margin-top:2.5vh">${(live.options||[]).map(o=>`<div class="result-option ${o.key===live.correct_option?'correct':''}"><b>${esc(o.key)}</b><span>${esc(o.label)}</span><b>${Math.round((c[o.key]||0)/tot*100)}%</b></div>`).join('')}</div></div><div><div class="result-stat">${live.correct_count||0}<small>respuestas correctas</small></div><div class="result-stat" style="margin-top:3vh">+${(live.correct_count||0)*10}<small>puntos repartidos</small></div>${live.reveal_text?`<p class="screen-subtitle" style="font-size:1.2vw">${esc(live.reveal_text)}</p>`:''}</div></div>`);return
+    content=stageShell(`<div class="result-grid"><div><div class="screen-kicker">✨ RESULTADO · PREGUNTA ${live.display_order}</div><h1 class="screen-title" style="font-size:3.05vw">${esc(live.question)}</h1><div class="result-options" style="margin-top:2.5vh">${(live.options||[]).map(o=>`<div class="result-option ${o.key===live.correct_option?'correct':''}"><b>${esc(o.key)}</b><span>${esc(o.label)}</span><b>${Math.round((c[o.key]||0)/tot*100)}%</b></div>`).join('')}</div></div><div><div class="result-stat">${live.correct_count||0}<small>respuestas correctas</small></div><div class="result-stat" style="margin-top:3vh">+${(live.correct_count||0)*10}<small>puntos repartidos</small></div>${live.reveal_text?`<p class="screen-subtitle" style="font-size:1vw">${esc(live.reveal_text)}</p>`:''}</div></div>`);
   }
-  $('sb').innerHTML=renderRankingStage()
+  else content=renderRankingStage();
+  $('sb').innerHTML=screenFrame(content);
 }
 function sub(){
   chs=[
