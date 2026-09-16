@@ -29,6 +29,29 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
 .badge{display:inline-block;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900;background:#eee4d8}.badge.live{background:#181511;color:white}.mission-admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .admin-submission{padding:16px 0;border-bottom:1px solid var(--l)}.admin-submission:last-child{border-bottom:0}.points-pill{display:inline-block;background:#fff;color:#181511;padding:7px 10px;border-radius:999px;font-weight:900;font-size:12px}
 .admin-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.kpi{background:#f5eee6;border:1px solid var(--l);border-radius:16px;padding:12px;text-align:center}.kpi b{display:block;font-size:22px;font-family:Georgia,serif;font-weight:400}.mission-progress{height:9px;background:#eee4d8;border-radius:999px;overflow:hidden;margin:10px 0 4px}.mission-progress i{display:block;height:100%;background:var(--g);border-radius:999px}.admin-screen-preview{background:#181511;color:#fff;border-radius:20px;padding:16px;margin-top:12px}.admin-screen-preview .small{color:#cfc7bf}.admin-approved-row{display:grid;grid-template-columns:62px 1fr;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--l)}.admin-approved-row:last-child{border-bottom:0}.admin-approved-row img{width:62px;height:62px;object-fit:cover;border-radius:12px}.screen-mission{width:min(1180px,92vw);margin:auto}.screen-mission h1{font-size:4vw;margin:.35em 0}.screen-mission p{font-size:1.5vw;color:#d6cec6;max-width:900px}.screen-photo{display:block;width:100%;max-height:54vh;object-fit:contain;background:#0e0d0c;border-radius:22px;margin-top:2vw}.screen-caption{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-top:1vw;font-size:1.4vw;color:#d6cec6}.screen-progress{height:12px;background:#ffffff22;border-radius:999px;overflow:hidden;margin-top:1.2vw}.screen-progress i{display:block;height:100%;background:var(--g)}
+
+.screen{padding:0;overflow:hidden;position:relative;background:radial-gradient(circle at 20% 0%,#29231c 0,#171512 38%,#0f0e0c 100%)}
+.screen:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 0 70%,rgba(169,120,46,.09));pointer-events:none}
+.stage{position:relative;z-index:1;min-height:100vh;width:100%;padding:4.2vh 5vw;display:flex;flex-direction:column;justify-content:center}
+.stage-top{position:absolute;top:3.4vh;left:5vw;right:5vw;display:flex;justify-content:space-between;align-items:center;font-size:1vw;letter-spacing:.18em;text-transform:uppercase;color:#cfc7bf}
+.stage-brand{font-family:Georgia,serif;color:#fff;font-weight:700;letter-spacing:.16em}.stage-date{opacity:.72}
+.screen-kicker{font-size:1.05vw;letter-spacing:.2em;text-transform:uppercase;font-weight:900;color:#d3b075;margin-bottom:1.4vh}
+.screen-title{font-family:Georgia,serif;font-size:4.4vw;line-height:1.02;font-weight:400;margin:0;max-width:88vw}
+.screen-subtitle{font-size:1.55vw;line-height:1.45;color:#d6cec6;max-width:78vw;margin:1.6vh 0 0}
+.screen-options{display:grid;grid-template-columns:1fr 1fr;gap:1.1vw;margin-top:3.2vh;max-width:90vw}
+.screen-option{border:1px solid #ffffff20;background:#ffffff0b;border-radius:1.2vw;padding:1.35vw 1.5vw;display:flex;gap:1vw;align-items:center;font-size:1.45vw;min-height:7.2vh}
+.screen-option .letter{width:2.6vw;height:2.6vw;border-radius:50%;background:#fff;color:#181511;display:grid;place-items:center;font-weight:900;flex:0 0 auto}
+.screen-option.correct{background:#efe4d5;color:#181511;border-color:#efe4d5}.screen-option.correct .letter{background:#181511;color:#fff}
+.screen-option.dim{opacity:.5}
+.response-wrap{margin-top:3vh;max-width:88vw}.response-line{display:flex;justify-content:space-between;align-items:end;font-size:1.25vw;color:#d6cec6;margin-bottom:.8vh}.response-line b{font-family:Georgia,serif;font-size:2.5vw;color:#fff;font-weight:400}.response-bar{height:1.15vh;border-radius:99px;background:#ffffff1f;overflow:hidden}.response-bar i{display:block;height:100%;background:#d3b075;border-radius:99px;transition:width .45s ease}
+.lock-wrap{text-align:center}.lock-icon{font-size:7vw;line-height:1}.lock-wrap .screen-title{margin:1vh auto;max-width:75vw}.lock-wrap .screen-subtitle{margin:1.6vh auto 0}
+.result-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4vw;align-items:center}.result-options{display:grid;gap:.8vw}.result-option{display:grid;grid-template-columns:3vw 1fr auto;gap:1vw;align-items:center;padding:1.1vw 1.2vw;border:1px solid #ffffff20;border-radius:1vw;font-size:1.25vw}.result-option.correct{background:#efe4d5;color:#181511;border-color:#efe4d5}.result-option b:last-child{font-family:Georgia,serif;font-size:2vw;font-weight:400}.result-stat{font-family:Georgia,serif;font-size:5vw;font-weight:400}.result-stat small{display:block;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:1.1vw;color:#d6cec6;margin-top:.4vh}
+.rank-podium{display:grid;grid-template-columns:1fr 1.12fr 1fr;gap:1.2vw;align-items:end;margin-top:3vh;max-width:90vw}.podium-card{border:1px solid #ffffff20;background:#ffffff0a;border-radius:1.4vw;padding:1.4vw;min-height:14vh;display:flex;flex-direction:column;justify-content:space-between}.podium-card.first{min-height:18vh;background:#efe4d5;color:#181511}.podium-pos{font-size:1.05vw;font-weight:900;letter-spacing:.15em}.podium-name{font-family:Georgia,serif;font-size:2vw;line-height:1.05}.podium-points{font-size:1.1vw}.podium-points b{font-family:Georgia,serif;font-size:2.6vw;font-weight:400}.rank-rest{display:grid;grid-template-columns:1fr 1fr;gap:.7vw 1.2vw;margin-top:1.4vw;max-width:90vw}.rank-row{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff18;padding:.7vw .2vw;font-size:1.12vw}.rank-row b{font-family:Georgia,serif;font-size:1.45vw;font-weight:400}
+.mission-stage{display:grid;grid-template-columns:.92fr 1.08fr;gap:4vw;align-items:center}.mission-copy .screen-title{font-size:4.2vw}.mission-photo-wrap{position:relative}.mission-photo-big{width:100%;height:66vh;object-fit:contain;border-radius:1.4vw;background:#090806;box-shadow:0 2.4vw 6vw #0006}.mission-photo-meta{position:absolute;left:1.2vw;right:1.2vw;bottom:1.2vw;background:#11100ed9;backdrop-filter:blur(10px);border-radius:1vw;padding:1vw 1.2vw;display:flex;justify-content:space-between;font-size:1.15vw}.mission-stats{display:grid;grid-template-columns:1fr 1fr;gap:1vw;margin-top:2.5vh}.mission-stat{border:1px solid #ffffff20;border-radius:1vw;padding:1.1vw}.mission-stat b{display:block;font-family:Georgia,serif;font-size:2.8vw;font-weight:400}.mission-stat span{font-size:1vw;color:#d6cec6}.mission-progress-v2{height:1vh;background:#ffffff1f;border-radius:99px;overflow:hidden;margin-top:2vh}.mission-progress-v2 i{height:100%;display:block;background:#d3b075;border-radius:99px}
+.gallery-stage{padding:0;display:block}.gallery-photo{width:100vw;height:100vh;object-fit:contain;background:#0b0a09}.gallery-overlay{position:absolute;left:0;right:0;bottom:0;padding:7vh 5vw 4vh;background:linear-gradient(transparent,#0d0c0be8);display:flex;justify-content:space-between;align-items:end;gap:3vw}.gallery-overlay h2{font-family:Georgia,serif;font-size:2.8vw;font-weight:400;margin:.3vh 0}.gallery-overlay .meta{font-size:1.2vw;color:#d6cec6}.gallery-count{font-size:1vw;letter-spacing:.15em;text-transform:uppercase;color:#d3b075}
+.screen-controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.screen-mode-btn{border:1px solid var(--l);background:#fff;color:var(--i);border-radius:14px;padding:11px 6px;font-size:11px;font-weight:900}.screen-mode-btn.active{background:#181511;color:#fff;border-color:#181511}.screen-mode-help{margin-top:8px;font-size:11px;color:var(--m)}
+.screen-fade{animation:screenFade .45s ease both}@keyframes screenFade{from{opacity:.15;transform:scale(.994)}to{opacity:1;transform:scale(1)}}
+
 </style>
 </head>
 <body>
@@ -115,7 +138,15 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
     </div>
     <div class="card">
       <div class="ey">Pantalla del salón</div>
-      <h2>Vista previa</h2>
+      <h2>Control de pantalla</h2>
+      <div class="screen-controls">
+        <button id="sm-auto" class="screen-mode-btn" onclick="screenAdminAction('auto')">AUTO</button>
+        <button id="sm-ranking" class="screen-mode-btn" onclick="screenAdminAction('ranking')">RANKING</button>
+        <button id="sm-mission" class="screen-mode-btn" onclick="screenAdminAction('mission')">MISIÓN</button>
+        <button id="sm-photos" class="screen-mode-btn" onclick="screenAdminAction('photos')">FOTOS</button>
+      </div>
+      <div class="screen-mode-help"><b>AUTO</b> prioriza Trivia; si no hay Trivia, alterna Misión y fotos aprobadas; si no hay misión, muestra Ranking.</div>
+      <h2 style="margin-bottom:4px">Vista previa</h2>
       <div id="admScreenPreview"></div>
       <a class="btn secondary" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="/screen" target="_blank">ABRIR /SCREEN ↗</a>
     </div>
@@ -139,7 +170,7 @@ const db=supabase.createClient(
   {auth:{persistSession:false}}
 );
 const tm={QP7K2M:'Quiubo pues',QK9R4X:'Qué quilombo',MG6T8P:'Merequetengue',AM3V7N:'Asu mare',AF8C5L:'Alta fiesta',NT4J9B:'No sea toche',LR2H6S:'La raja po'};
-let board=[],mission=null,screenMission={status:'idle'},live={status:'idle'},dash=null,mdash=null,chs=[],selectedMissionFile=null,selectedMissionUrl=null,missionUploading=false,screenPhotoIndex=0,screenCarousel=null;
+let board=[],mission=null,screenMission={status:'idle'},screenControl={mode:'auto',gallery:[]},live={status:'idle'},dash=null,mdash=null,chs=[],selectedMissionFile=null,selectedMissionUrl=null,missionUploading=false,screenPhotoIndex=0,galleryPhotoIndex=0,screenCarousel=null,screenAutoPhoto=false,revealScreenUntil=0;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
@@ -182,11 +213,20 @@ async function loadScreenMission(){
   if(n && screenPhotoIndex>=n)screenPhotoIndex=0;
   renderScreen();renderAdminScreenPreview()
 }
+async function loadScreenControl(){
+  let {data,error}=await db.rpc('get_screen_control');
+  screenControl=error?{mode:'auto',gallery:[]}:(data||{mode:'auto',gallery:[]});
+  const n=(screenControl.gallery||[]).length;if(n && galleryPhotoIndex>=n)galleryPhotoIndex=0;
+  renderScreenControls();renderScreen();renderAdminScreenPreview()
+}
 async function loadTrivia(){
+  const previous=live?.status||'idle';
   let {data}=await db.rpc('get_live_trivia');if(data)live=data;
+  if(live.status==='reveal'&&previous!=='reveal'){revealScreenUntil=Date.now()+12000;setTimeout(()=>renderScreen(),12100)}
+  if(live.status!=='reveal')revealScreenUntil=0;
   renderTrivia();renderHome();renderScreen();renderAdmin()
 }
-async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia(),loadScreenMission()])}
+async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia(),loadScreenMission(),loadScreenControl()])}
 
 function renderHome(){
   let tid=localStorage.getItem('tid'),own=board.find(x=>x.id===tid),i=board.findIndex(x=>x.id===tid);
@@ -311,7 +351,7 @@ function renderAdmin(){
   if(!dash||!$('ap'))return;
   $('ast').textContent=(dash.state?.status||'idle').toUpperCase();
   $('aq').innerHTML=(dash.questions||[]).map(q=>`<div class="adminq"><b>${q.order}. ${esc(q.question)}</b><button class="btn" style="margin-top:6px" onclick="adminOpen(${q.id})">ABRIR</button></div>`).join('');
-  renderMissionAdmin();renderAdminScreenPreview()
+  renderMissionAdmin();renderScreenControls();renderAdminScreenPreview()
 }
 async function adminOpen(id){await adminAction('open',id)}
 async function adminAction(a,id=null){
@@ -381,21 +421,39 @@ function renderMissionAdmin(){
     }).join(''):'<p class="lead">Todavía no aprobaste ninguna misión.</p>';
   }
 }
+function renderScreenControls(){
+  const mode=screenControl?.mode||'auto';
+  ['auto','ranking','mission','photos'].forEach(m=>{const e=$('sm-'+m);if(e)e.classList.toggle('active',m===mode)})
+}
+async function screenAdminAction(mode){
+  const {error}=await db.rpc('admin_screen_action',{p_admin_key:sessionStorage.getItem('ak'),p_mode:mode});
+  if(error)return toast('No pudimos cambiar la pantalla');
+  await loadScreenControl();toast('Pantalla: '+mode.toUpperCase())
+}
+function effectiveScreenMode(){
+  const manual=screenControl?.mode||'auto';
+  if(manual!=='auto')return manual;
+  if(live.status==='open')return 'trivia-open';
+  if(live.status==='closed')return 'trivia-closed';
+  if(live.status==='reveal'&&Date.now()<revealScreenUntil)return 'trivia-reveal';
+  if(screenMission?.status==='active'){
+    if(screenAutoPhoto&&(screenMission.photos||[]).length)return 'mission-photo';
+    return 'mission';
+  }
+  return 'ranking'
+}
 function renderAdminScreenPreview(){
   if(!$('admScreenPreview'))return;
-  if(live.status==='open'||live.status==='closed'){
-    $('admScreenPreview').innerHTML=`<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA</div><b>🧠 Trivia · Pregunta ${live.display_order||''}</b><div class="small">${live.response_count||0} respuestas recibidas</div></div>`;
-    return
-  }
-  if(live.status==='reveal'){
-    $('admScreenPreview').innerHTML=`<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA</div><b>✨ Resultado de Trivia</b><div class="small">Pregunta ${live.display_order||''}</div></div>`;
-    return
-  }
-  if(screenMission?.status==='active'){
-    $('admScreenPreview').innerHTML=`<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA</div><b>📸 ${esc(screenMission.title)}</b><div class="small">${screenMission.approved_count||0}/${screenMission.total_tables||0} mesas aprobadas · ${(screenMission.photos||[]).length} fotos en carrusel</div></div>`;
-    return
-  }
-  $('admScreenPreview').innerHTML='<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA</div><b>🏆 Ranking en vivo</b><div class="small">Sin trivia ni misión activa.</div></div>'
+  renderScreenControls();
+  const mode=effectiveScreenMode(),manual=screenControl?.mode||'auto';
+  const tag=manual==='auto'?'AUTO':'FORZADO · '+manual.toUpperCase();
+  let title='🏆 Ranking en vivo',detail='Copa de las mesas';
+  if(mode==='trivia-open') {title=`🧠 Trivia · Pregunta ${live.display_order||''}`;detail=`${live.response_count||0}/${live.total_expected||0} respuestas recibidas`}
+  else if(mode==='trivia-closed'){title='🔒 Respuestas cerradas';detail=`Pregunta ${live.display_order||''} · esperando revelar`}
+  else if(mode==='trivia-reveal'){title='✨ Resultado de Trivia';detail='Luego vuelve al ranking automáticamente'}
+  else if(mode==='mission'||mode==='mission-photo'){title=`📸 ${screenMission?.title||'Misión activa'}`;detail=`${screenMission?.approved_count||0}/${screenMission?.total_tables||0} mesas aprobadas · ${(screenMission?.photos||[]).length} fotos`}
+  else if(mode==='photos'){title='🖼️ Carrusel de fotos';detail=`${(screenControl?.gallery||[]).length} fotos aprobadas disponibles`}
+  $('admScreenPreview').innerHTML=`<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA · ${tag}</div><b>${esc(title)}</b><div class="small">${esc(detail)}</div></div>`
 }
 async function missionAdminAction(action,missionId=null,submissionId=null){
   const {data,error}=await db.rpc('admin_mission_action',{
@@ -412,45 +470,60 @@ async function missionAdminAction(action,missionId=null,submissionId=null){
   else toast('Misiones pausadas')
 }
 
+function stageShell(inner){
+  return `<div class="stage screen-fade"><div class="stage-top"><div class="stage-brand">MIGUE & SEBAS</div><div class="stage-date">25 · 09 · 26</div></div>${inner}</div>`
+}
+function renderRankingStage(){
+  const b=board||[],top=b.slice(0,3),rest=b.slice(3);
+  const card=(r,pos,cls='')=>r?`<div class="podium-card ${cls}"><div class="podium-pos">${pos===1?'🥇 1°':pos===2?'🥈 2°':'🥉 3°'}</div><div class="podium-name">${esc(r.name)}</div><div class="podium-points"><b>${r.points}</b> pts</div></div>`:'';
+  return stageShell(`<div class="screen-kicker">🏆 COPA DE LAS MESAS</div><h1 class="screen-title">Ranking en vivo</h1><div class="rank-podium">${card(top[1],2)}${card(top[0],1,'first')}${card(top[2],3)}</div><div class="rank-rest">${rest.map((r,i)=>`<div class="rank-row"><span>${i+4}. ${esc(r.name)}</span><b>${r.points} pts</b></div>`).join('')}</div>`)
+}
+function renderMissionStage(photoOnly=false){
+  if(screenMission?.status!=='active')return renderRankingStage();
+  const photos=screenMission.photos||[],photo=photos.length?photos[screenPhotoIndex%photos.length]:null,done=screenMission.approved_count||0,total=screenMission.total_tables||0,pct=total?Math.min(100,done/total*100):0;
+  if(photoOnly&&photo){
+    return `<div class="stage gallery-stage screen-fade"><div class="stage-top"><div class="stage-brand">MIGUE & SEBAS</div><div class="stage-date">MISIÓN ${screenMission.display_order}/5</div></div><img class="gallery-photo" src="${missionPhotoUrl(photo.photo_path)}" alt="Foto aprobada"><div class="gallery-overlay"><div><div class="screen-kicker">📸 MISIÓN CUMPLIDA</div><h2>${esc(photo.table_name)}</h2><div class="meta">${esc(screenMission.title)} · +${screenMission.points} pts</div></div><div class="gallery-count">${(screenPhotoIndex%photos.length)+1} / ${photos.length}</div></div></div>`
+  }
+  return stageShell(`<div class="mission-stage"><div class="mission-copy"><div class="screen-kicker">📸 MISIÓN ACTIVA · ${screenMission.display_order}/5 · +${screenMission.points} PTS</div><h1 class="screen-title">${esc(screenMission.title)}</h1><p class="screen-subtitle">${esc(screenMission.description)}</p><div class="mission-stats"><div class="mission-stat"><b>${done}/${total}</b><span>mesas aprobadas</span></div><div class="mission-stat"><b>${screenMission.pending_count||0}</b><span>esperando aprobación</span></div></div><div class="mission-progress-v2"><i style="width:${pct}%"></i></div></div><div class="mission-photo-wrap">${photo?`<img class="mission-photo-big" src="${missionPhotoUrl(photo.photo_path)}" alt="Foto aprobada"><div class="mission-photo-meta"><span>✅ ${esc(photo.table_name)}</span><span>${(screenPhotoIndex%photos.length)+1}/${photos.length}</span></div>`:`<div class="mission-photo-big" style="display:grid;place-items:center;color:#d6cec6;font-size:1.6vw">Esperando las primeras fotos aprobadas…</div>`}</div></div>`)
+}
+function renderGalleryStage(){
+  const photos=screenControl?.gallery||[];if(!photos.length)return stageShell('<div class="lock-wrap"><div class="lock-icon">📷</div><h1 class="screen-title">Todavía no hay fotos aprobadas</h1><p class="screen-subtitle">Cuando empiecen a cumplir misiones, van a aparecer acá.</p></div>');
+  const p=photos[galleryPhotoIndex%photos.length];
+  return `<div class="stage gallery-stage screen-fade"><div class="stage-top"><div class="stage-brand">MIGUE & SEBAS</div><div class="stage-date">FOTOS DE LA NOCHE</div></div><img class="gallery-photo" src="${missionPhotoUrl(p.photo_path)}" alt="Foto aprobada"><div class="gallery-overlay"><div><div class="screen-kicker">📸 ${esc(p.mission_title||'Misión cumplida')}</div><h2>${esc(p.table_name)}</h2><div class="meta">Misión ${p.mission_order||''}</div></div><div class="gallery-count">${(galleryPhotoIndex%photos.length)+1} / ${photos.length}</div></div></div>`
+}
 function renderScreen(){
   if(!$('sb'))return;
-  if(live.status==='open'||live.status==='closed'){
-    $('sb').innerHTML=`<div class="ey" style="color:#d3b075">TRIVIA EN VIVO · PREGUNTA ${live.display_order}/${live.total_questions}</div><h1>${esc(live.question)}</h1><h1>${live.response_count} / ${live.total_expected}</h1>${(live.table_participation||[]).map(p=>`<div class="screenrow"><span>${esc(p.name)}</span><b>${p.responses}/${p.expected}</b></div>`).join('')}`;
-    return
+  const mode=effectiveScreenMode();
+  if(mode==='ranking'){ $('sb').innerHTML=renderRankingStage();return }
+  if(mode==='mission'){ $('sb').innerHTML=renderMissionStage(false);return }
+  if(mode==='mission-photo'){ $('sb').innerHTML=renderMissionStage(true);return }
+  if(mode==='photos'){ $('sb').innerHTML=renderGalleryStage();return }
+  if(mode==='trivia-open'){
+    const pct=(live.total_expected||0)?Math.min(100,(live.response_count||0)/(live.total_expected||1)*100):0;
+    $('sb').innerHTML=stageShell(`<div class="screen-kicker">🧠 TRIVIA EN VIVO · PREGUNTA ${live.display_order}/${live.total_questions}</div><h1 class="screen-title">${esc(live.question)}</h1><div class="screen-options">${(live.options||[]).map(o=>`<div class="screen-option"><span class="letter">${esc(o.key)}</span><span>${esc(o.label)}</span></div>`).join('')}</div><div class="response-wrap"><div class="response-line"><span>Respuestas recibidas</span><b>${live.response_count||0} / ${live.total_expected||0}</b></div><div class="response-bar"><i style="width:${pct}%"></i></div></div>`);return
   }
-  if(live.status==='reveal'){
-    let c=live.option_counts||{},tot=Math.max(live.response_count||0,1);
-    $('sb').innerHTML=`<div class="ey" style="color:#d3b075">RESULTADO · PREGUNTA ${live.display_order}</div><h1>${esc(live.question)}</h1>${(live.options||[]).map(o=>`<div class="screenrow"><span>${o.key===live.correct_option?'✅ ':''}${esc(o.label)}</span><b>${Math.round((c[o.key]||0)/tot*100)}%</b></div>`).join('')}<h2>${live.correct_count} aciertos · +${(live.correct_count||0)*10} pts</h2>`;
-    return
+  if(mode==='trivia-closed'){
+    $('sb').innerHTML=stageShell(`<div class="lock-wrap"><div class="lock-icon">🔒</div><div class="screen-kicker">PREGUNTA ${live.display_order}/${live.total_questions}</div><h1 class="screen-title">Respuestas cerradas</h1><p class="screen-subtitle">${esc(live.question)}</p><p class="screen-subtitle"><b style="color:#fff">${live.response_count||0}</b> respuestas registradas · Esperando el resultado…</p></div>`);return
   }
-  if(screenMission?.status==='active'){
-    const photos=screenMission.photos||[],photo=photos.length?photos[screenPhotoIndex%photos.length]:null;
-    const done=screenMission.approved_count||0,total=screenMission.total_tables||0;
-    $('sb').innerHTML=`<div class="screen-mission">
-      <div class="ey" style="color:#d3b075">📸 MISIÓN ACTIVA · ${screenMission.display_order}/5 · +${screenMission.points} PTS</div>
-      <h1>${esc(screenMission.title)}</h1>
-      <p>${esc(screenMission.description)}</p>
-      <div class="screen-progress"><i style="width:${total?Math.min(100,done/total*100):0}%"></i></div>
-      <div class="screen-caption"><span><b>${done}/${total}</b> mesas ya la cumplieron</span><span>${screenMission.pending_count||0} esperando aprobación</span></div>
-      ${photo?`<img class="screen-photo" src="${missionPhotoUrl(photo.photo_path)}" alt="Foto aprobada"><div class="screen-caption"><span>✅ ${esc(photo.table_name)}</span><span>${photos.length>1?`${(screenPhotoIndex%photos.length)+1}/${photos.length}`:'Foto aprobada'}</span></div>`:`<div style="padding:8vh 0;text-align:center;color:#d6cec6;font-size:2vw">Esperando las primeras fotos…</div>`}
-    </div>`;
-    return
+  if(mode==='trivia-reveal'){
+    const c=live.option_counts||{},tot=Math.max(live.response_count||0,1);
+    $('sb').innerHTML=stageShell(`<div class="result-grid"><div><div class="screen-kicker">✨ RESULTADO · PREGUNTA ${live.display_order}</div><h1 class="screen-title" style="font-size:3.6vw">${esc(live.question)}</h1><div class="result-options" style="margin-top:2.5vh">${(live.options||[]).map(o=>`<div class="result-option ${o.key===live.correct_option?'correct':''}"><b>${esc(o.key)}</b><span>${esc(o.label)}</span><b>${Math.round((c[o.key]||0)/tot*100)}%</b></div>`).join('')}</div></div><div><div class="result-stat">${live.correct_count||0}<small>respuestas correctas</small></div><div class="result-stat" style="margin-top:3vh">+${(live.correct_count||0)*10}<small>puntos repartidos</small></div>${live.reveal_text?`<p class="screen-subtitle" style="font-size:1.2vw">${esc(live.reveal_text)}</p>`:''}</div></div>`);return
   }
-  $('sb').innerHTML=`<div class="ey" style="color:#d3b075">COPA DE LAS MESAS</div><h1>Ranking en vivo</h1>${board.map((r,i)=>`<div class="screenrow"><span>${i+1}. ${esc(r.name)}</span><b>${r.points}</b></div>`).join('')}`
+  $('sb').innerHTML=renderRankingStage()
 }
 function sub(){
   chs=[
     db.channel('t').on('postgres_changes',{event:'UPDATE',schema:'public',table:'wedding_tables'},async()=>{await loadTables();await loadMission();await loadScreenMission()}).subscribe(),
-    db.channel('e').on('postgres_changes',{event:'UPDATE',schema:'public',table:'event_state',filter:'id=eq.1'},async()=>{await loadTrivia();await loadMission();await loadScreenMission();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe(),
+    db.channel('e').on('postgres_changes',{event:'UPDATE',schema:'public',table:'event_state',filter:'id=eq.1'},async()=>{await loadTrivia();await loadMission();await loadScreenMission();await loadScreenControl();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe(),
     db.channel('a').on('postgres_changes',{event:'INSERT',schema:'public',table:'trivia_answers'},loadTrivia).subscribe(),
-    db.channel('ms').on('postgres_changes',{event:'*',schema:'public',table:'mission_submissions'},async()=>{await loadMission();await loadScreenMission();await loadTables();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe()
+    db.channel('ms').on('postgres_changes',{event:'*',schema:'public',table:'mission_submissions'},async()=>{await loadMission();await loadScreenMission();await loadScreenControl();await loadTables();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe()
   ]
 }
 async function boot(){
   let p=location.pathname;
   if(p==='/screen'||p==='/screen/'){
     $('app').classList.add('hidden');$('nav').classList.add('hidden');$('screen').classList.remove('hidden');await load();sub();
-    screenCarousel=setInterval(()=>{const n=(screenMission.photos||[]).length;if(n>1){screenPhotoIndex=(screenPhotoIndex+1)%n;renderScreen()}},7000);
+    screenCarousel=setInterval(()=>{const mn=(screenMission.photos||[]).length,gn=(screenControl.gallery||[]).length;if(mn>1)screenPhotoIndex=(screenPhotoIndex+1)%mn;if(gn>1)galleryPhotoIndex=(galleryPhotoIndex+1)%gn;if((screenControl.mode||'auto')==='auto'&&live.status!=='open'&&live.status!=='closed'&&!(live.status==='reveal'&&Date.now()<revealScreenUntil)&&screenMission?.status==='active'&&mn)screenAutoPhoto=!screenAutoPhoto;renderScreen()},8000);
     return
   }
   if(p==='/admin'||p==='/admin/'||p==='/control'||p==='/control/'){
