@@ -27,7 +27,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
 .adminq{padding:12px 0;border-bottom:1px solid var(--l)}.module-img{display:block;width:100%;height:auto;margin:18px auto 0;border-radius:18px;border:1px solid var(--l);box-shadow:0 14px 34px rgba(40,30,20,.08)}.dj-img,.book-img{max-width:430px}
 .mission-preview,.admin-photo{display:block;width:100%;height:auto;max-height:420px;object-fit:cover;border-radius:18px;border:1px solid var(--l);margin-top:14px}.admin-photo{max-height:320px}
 .notice{border-radius:18px;padding:15px;margin-top:14px}.notice.pending{background:#fff7e8}.notice.approved{background:#edf6ef}.notice.rejected{background:#faefed}
-.badge{display:inline-block;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900;background:#eee4d8}.badge.live{background:#181511;color:white}.mission-admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.badge{display:inline-block;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900;background:#eee4d8}.badge.live{background:#181511;color:white}.badge.done{background:#edf6ef;color:#2f6b3d}.admin-done{opacity:.7}.reopen-btn{border:0;background:transparent;color:var(--m);font-size:11px;text-decoration:underline;padding:8px 2px 0;margin-top:2px}.mission-admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .admin-submission{padding:16px 0;border-bottom:1px solid var(--l)}.admin-submission:last-child{border-bottom:0}.points-pill{display:inline-block;background:#fff;color:#181511;padding:7px 10px;border-radius:999px;font-weight:900;font-size:12px}
 .admin-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.kpi{background:#f5eee6;border:1px solid var(--l);border-radius:16px;padding:12px;text-align:center}.kpi b{display:block;font-size:22px;font-family:Georgia,serif;font-weight:400}.mission-progress{height:9px;background:#eee4d8;border-radius:999px;overflow:hidden;margin:10px 0 4px}.mission-progress i{display:block;height:100%;background:var(--g);border-radius:999px}.admin-screen-preview{background:#181511;color:#fff;border-radius:20px;padding:16px;margin-top:12px}.admin-screen-preview .small{color:#cfc7bf}.admin-approved-row{display:grid;grid-template-columns:62px 1fr;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--l)}.admin-approved-row:last-child{border-bottom:0}.admin-approved-row img{width:62px;height:62px;object-fit:cover;border-radius:12px}.screen-mission{width:min(1180px,92vw);margin:auto}.screen-mission h1{font-size:4vw;margin:.35em 0}.screen-mission p{font-size:1.5vw;color:#d6cec6;max-width:900px}.screen-photo{display:block;width:100%;max-height:54vh;object-fit:contain;background:#0e0d0c;border-radius:22px;margin-top:2vw}.screen-caption{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-top:1vw;font-size:1.4vw;color:#d6cec6}.screen-progress{height:12px;background:#ffffff22;border-radius:999px;overflow:hidden;margin-top:1.2vw}.screen-progress i{display:block;height:100%;background:var(--g)}
 
@@ -144,7 +144,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
     <div class="card">
       <div class="ey">Trivia</div>
       <h2 style="margin-bottom:6px">Control de Trivia</h2>
-      <p class="lead" style="margin-top:0">Abrí una pregunta, cerrá las respuestas cuando quieras y revelá el resultado. El resultado queda en pantalla hasta que vos finalices la pregunta.</p>
+      <p class="lead" style="margin-top:0">Flujo simple: <b>Abrir → Cerrar + revelar → Finalizar</b>. Las preguntas finalizadas quedan marcadas y dejan de mostrar el botón Abrir.</p>
       <div id="admTriviaSummary"></div>
       <div id="aq"></div>
     </div>
@@ -154,7 +154,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
       <p class="lead" style="margin-top:0">Activá una misión según el momento de la noche. Sólo una puede estar en juego a la vez.</p>
       <div id="admMissionSummary"></div>
       <div id="admMissions"></div>
-      <button class="btn secondary" style="margin-top:12px" onclick="missionAdminAction('deactivate')">PAUSAR MISIONES</button>
+      <button id="pauseMissionBtn" class="btn secondary" style="margin-top:12px" onclick="missionAdminAction('deactivate')">PAUSAR MISIÓN ACTIVA</button>
     </div>
     <div class="card">
       <div class="ey">Moderación</div>
@@ -427,6 +427,7 @@ function renderTriviaAdmin(){
   const state=dash.state||{},questions=dash.questions||[],status=state.status||'idle';
   const activeId=Number(state.active_trivia_id||0),lastId=Number(state.last_revealed_trivia_id||0);
   const activeQ=questions.find(q=>Number(q.id)===activeId);
+  const completedCount=questions.filter(q=>q.completed).length;
   const total=Number(dash.total_expected||live.total_expected||0);
   const responses=Number(live.response_count??activeQ?.answer_count??0);
   const pct=total?Math.min(100,responses/total*100):0;
@@ -435,7 +436,7 @@ function renderTriviaAdmin(){
     if(activeQ){
       let badge='ABIERTA',badgeClass='live',action='';
       if(status==='open'){
-        action=`<button class="btn" style="margin-top:12px" onclick="adminAction('close')">🔒 CERRAR RESPUESTAS</button>`;
+        action=`<button class="btn gold" style="margin-top:12px" onclick="adminAction('close_reveal')">🔒✨ CERRAR + REVELAR</button>`;
       }else if(status==='closed'){
         badge='CERRADA';badgeClass='';
         action=`<button class="btn gold" style="margin-top:12px" onclick="adminAction('reveal')">✨ REVELAR RESPUESTA + PUNTOS</button>`;
@@ -456,21 +457,23 @@ function renderTriviaAdmin(){
       </div>${correct}${action}`;
     }else{
       const lastQ=questions.find(q=>Number(q.id)===lastId);
-      summary.innerHTML=`<div class="notice pending"><b>⏸ Trivia en espera</b><br><span class="small">${lastQ?`Última jugada: pregunta ${lastQ.order}. Podés volver a mostrarla desde “Última Trivia”.`:'Abrí una pregunta cuando quieras empezar.'}</span></div>`;
+      summary.innerHTML=`<div class="notice pending"><b>⏸ Trivia en espera · ${completedCount}/${questions.length} finalizadas</b><br><span class="small">${lastQ?`Última jugada: pregunta ${lastQ.order}. Podés volver a mostrarla desde “Última Trivia”.`:'Abrí una pregunta cuando quieras empezar.'}</span></div>`;
     }
   }
   $('aq').innerHTML=questions.map(q=>{
-    const isActive=Number(q.id)===activeId,isLast=Number(q.id)===lastId;
+    const isActive=Number(q.id)===activeId;
     let label='EN ESPERA',cls='';
-    if(isActive&&status==='open'){label='ABIERTA';cls='live'}
+    if(q.completed){label='✓ FINALIZADA';cls='done'}
+    else if(isActive&&status==='open'){label='ABIERTA';cls='live'}
     else if(isActive&&status==='closed'){label='CERRADA'}
     else if(isActive&&status==='reveal'){label='REVELADA';cls='live'}
-    else if(isLast){label='ÚLTIMA';}
-    else if((q.answer_count||0)>0){label='JUGADA'}
-    const canOpen=!activeId;
-    return `<div class="adminq">
-      <div class="row"><div><b>${q.order}. ${esc(q.question)}</b><div class="small">${q.answer_count||0} respuestas registradas</div></div><span class="badge ${cls}">${label}</span></div>
+    const canOpen=!activeId&&!q.completed;
+    const canReopen=!activeId&&q.completed;
+    const stat=q.completed?`${q.answer_count||0} respuestas · ${q.correct_count||0} correctas`:`${q.answer_count||0} respuestas registradas`;
+    return `<div class="adminq ${q.completed?'admin-done':''}">
+      <div class="row"><div><b>${q.order}. ${esc(q.question)}</b><div class="small">${stat}</div></div><span class="badge ${cls}">${label}</span></div>
       ${canOpen?`<button class="btn" style="margin-top:8px" onclick="adminOpen(${q.id})">ABRIR PREGUNTA</button>`:''}
+      ${canReopen?`<button class="reopen-btn" onclick="adminAction('reopen',${q.id})">↩ Reabrir</button>`:''}
     </div>`
   }).join('');
 }
@@ -499,11 +502,12 @@ function renderMissionAdmin(){
   if(!mdash)return;
   const missions=mdash.missions||[],active=mdash.active_mission_id,total=mdash.total_tables||board.length||0;
   const activeMission=missions.find(m=>Number(m.id)===Number(active));
+  const completedCount=missions.filter(m=>m.completed).length;
   const approved=activeMission?.approved_count||0,pendingCount=activeMission?.pending_count||0;
   if($('admMissionSummary')){
     $('admMissionSummary').innerHTML=activeMission?`
       <div class="admin-screen-preview">
-        <div class="ey" style="color:#d3b075">MISIÓN ACTIVA · ${activeMission.display_order}/5</div>
+        <div class="row"><div class="ey" style="color:#d3b075">MISIÓN ACTIVA · ${activeMission.display_order}/5</div><span class="badge live">ACTIVA</span></div>
         <h2 style="margin:7px 0">${esc(activeMission.title)}</h2>
         <div class="admin-kpis">
           <div class="kpi" style="color:#181511"><b>${approved}/${total}</b><span class="small">aprobadas</span></div>
@@ -512,19 +516,27 @@ function renderMissionAdmin(){
         </div>
         <div class="mission-progress"><i style="width:${total?Math.min(100,approved/total*100):0}%"></i></div>
       </div>`:
-      `<div class="notice pending"><b>⏸ Misiones pausadas</b><br><span class="small">Activá una cuando llegue el momento.</span></div>`;
+      `<div class="notice pending"><b>⏸ Misiones en espera · ${completedCount}/${missions.length} finalizadas</b><br><span class="small">Activá la próxima cuando llegue el momento.</span></div>`;
   }
   $('admMissions').innerHTML=missions.map(m=>{
     const isActive=Number(active)===Number(m.id),done=m.approved_count||0,pend=m.pending_count||0;
-    return `<div class="adminq">
+    let badge='<span class="badge">EN ESPERA</span>';
+    if(m.completed)badge='<span class="badge done">✓ FINALIZADA</span>';
+    else if(isActive)badge='<span class="badge live">ACTIVA</span>';
+    const canActivate=!active&&!m.completed;
+    const canReopen=!active&&m.completed;
+    return `<div class="adminq ${m.completed?'admin-done':''}">
       <div class="row">
         <div><b>${m.display_order}. ${esc(m.title)}</b><div class="small">+${m.points} pts · ${done}/${total} aprobadas${pend?` · ${pend} pendientes`:''}</div></div>
-        ${isActive?'<span class="badge live">ACTIVA</span>':'<span class="badge">EN ESPERA</span>'}
+        ${badge}
       </div>
       <div class="mission-progress"><i style="width:${total?Math.min(100,done/total*100):0}%"></i></div>
-      ${isActive?'':`<button class="btn" style="margin-top:8px" onclick="missionAdminAction('activate',${m.id})">ACTIVAR MISIÓN</button>`}
+      ${isActive?`<button class="btn" style="margin-top:8px" onclick="missionAdminAction('finalize',${m.id})">✓ FINALIZAR MISIÓN</button>`:''}
+      ${canActivate?`<button class="btn" style="margin-top:8px" onclick="missionAdminAction('activate',${m.id})">ACTIVAR MISIÓN</button>`:''}
+      ${canReopen?`<button class="reopen-btn" onclick="missionAdminAction('reopen',${m.id})">↩ Reabrir</button>`:''}
     </div>`
   }).join('');
+  const pause=$('pauseMissionBtn');if(pause)pause.classList.toggle('hidden',!activeMission);
   const pending=mdash.pending||[];
   if($('admPendingBadge'))$('admPendingBadge').textContent=pending.length;
   if(!pending.length){
@@ -604,7 +616,9 @@ async function missionAdminAction(action,missionId=null,submissionId=null){
   if(action==='approve')toast(`Foto aprobada · +${data?.points_awarded||0} pts`);
   else if(action==='reject')toast('Foto rechazada');
   else if(action==='activate')toast('Misión activada');
-  else toast('Misiones pausadas')
+  else if(action==='finalize')toast('Misión finalizada ✓');
+  else if(action==='reopen')toast('Misión reabierta');
+  else toast('Misión pausada')
 }
 
 function stageShell(inner){
