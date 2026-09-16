@@ -9,19 +9,19 @@
 <style>
 :root{--p:#f7f0e8;--c:#fffdfa;--i:#181511;--m:#756c62;--l:#ddd0c2;--g:#a9782e;--d:#171512}
 *{box-sizing:border-box}html,body{margin:0;background:var(--p);color:var(--i);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;min-height:100vh;padding:18px 18px 110px}
+button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;min-height:100vh;padding:18px 18px 36px}
 .brand{text-align:center;margin-bottom:24px}.brand b{font-family:Georgia,serif;letter-spacing:.08em}.brand small,.small{font-size:11px;color:var(--m)}
 .hero,h1,h2{font-family:Georgia,serif;font-weight:400}.hero{font-size:44px;line-height:.98}.card{background:var(--c);border:1px solid var(--l);border-radius:24px;padding:20px;margin-top:14px}
 .lead{color:var(--m);line-height:1.5}.input,.btn{width:100%;padding:15px;border-radius:16px}.input{border:1px solid var(--l);background:#fff}
 .btn{border:0;background:var(--i);color:white;font-weight:800}.btn.secondary{background:#fff;color:var(--i);border:1px solid var(--l)}.btn.gold{background:var(--g)}.btn.danger{background:#9a4038}
 .feature{background:var(--d);color:white;border-radius:28px;padding:22px;margin:16px 0}.feature p{color:#cfc7bf}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.now-head{font-size:10px;letter-spacing:.16em;font-weight:900;text-transform:uppercase;color:#d3b075;margin-bottom:8px}.now-item{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:13px 0;border-top:1px solid #ffffff20}.now-item:first-of-type{border-top:0}.now-icon{font-size:24px}.now-copy b{display:block;font-size:15px}.now-copy span{display:block;color:#cfc7bf;font-size:11px;line-height:1.35;margin-top:2px}.now-btn{border:0;background:#fff;color:#181511;border-radius:12px;padding:10px 11px;font-size:10px;font-weight:900;white-space:nowrap}
+.event-now{border-color:#d9c4a3;background:linear-gradient(135deg,#fffdfa,#f5eadb)}.event-now h2{margin:6px 0 4px}.event-next{font-size:11px;color:var(--m);margin-top:8px}.event-alert{margin-top:12px;background:#181511;color:#fff;border-radius:14px;padding:11px 12px;font-size:11px;line-height:1.4}.event-alert b{color:#f0cf91}.now-head{font-size:10px;letter-spacing:.16em;font-weight:900;text-transform:uppercase;color:#d3b075;margin-bottom:8px}.now-item{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:13px 0;border-top:1px solid #ffffff20}.now-item:first-of-type{border-top:0}.now-icon{font-size:24px}.now-copy b{display:block;font-size:15px}.now-copy span{display:block;color:#cfc7bf;font-size:11px;line-height:1.35;margin-top:2px}.now-btn{border:0;background:#fff;color:#181511;border-radius:12px;padding:10px 11px;font-size:10px;font-weight:900;white-space:nowrap}
 .photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.photo-card{background:#fff;border:1px solid var(--l);border-radius:16px;overflow:hidden}.photo-card img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#eee4d8}.photo-meta{padding:9px 10px}.photo-meta b{display:block;font-size:11px}.photo-meta span{display:block;font-size:10px;color:var(--m);margin-top:2px}.photo-admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.photo-admin-card{border:1px solid var(--l);border-radius:16px;padding:10px;background:#fff}.photo-admin-card img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:11px;background:#eee4d8}.photo-admin-card .btn{padding:10px;border-radius:12px;font-size:10px;margin-top:7px}.photo-upload-preview{display:block;width:100%;max-height:420px;object-fit:contain;border-radius:18px;background:#efe7dd;margin:14px 0}.photo-count{font-family:Georgia,serif;font-size:28px;font-weight:400}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.tile{min-height:100px;border:1px solid var(--l);background:var(--c);border-radius:20px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}.tile span{font-size:24px}
-.head{display:flex;gap:12px;align-items:center}.back{width:42px;height:42px;border-radius:50%;border:1px solid var(--l);background:white}
+.head{display:flex;gap:12px;align-items:center}.back{width:42px;height:42px;border-radius:50%;border:1px solid var(--l);background:white}.back-home{border:1px solid var(--l);background:#fff;border-radius:999px;padding:9px 13px;font-size:11px;font-weight:800;color:var(--i);white-space:nowrap}
 .choice{width:100%;padding:14px;border:1px solid var(--l);background:white;border-radius:15px;text-align:left;margin-top:8px}.choice.correct{background:#edf6ef}.choice.wrong{background:#faefed}
-.score{display:grid;grid-template-columns:28px 1fr auto;gap:8px;padding:13px 0;border-bottom:1px solid var(--l)}.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:12px;width:min(calc(100% - 28px),472px);background:#181511;border-radius:22px;display:grid;grid-template-columns:repeat(4,1fr);padding:10px;z-index:20}.bottom button{background:transparent;border:0;color:#fff;font-size:10px}.bottom span{display:block;font-size:19px}
-.hidden{display:none!important}.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;background:#181511;color:#fff;padding:12px 16px;border-radius:30px;z-index:50;white-space:nowrap;max-width:calc(100vw - 28px);overflow:hidden;text-overflow:ellipsis}
+.score{display:grid;grid-template-columns:28px 1fr auto;gap:8px;padding:13px 0;border-bottom:1px solid var(--l)}
+.hidden{display:none!important}.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:#181511;color:#fff;padding:12px 16px;border-radius:30px;z-index:50;white-space:nowrap;max-width:calc(100vw - 28px);overflow:hidden;text-overflow:ellipsis}
 .music{display:block;padding:16px;border:1px solid var(--l);border-radius:18px;background:#fff;margin-top:10px;color:inherit;text-decoration:none}
 .screen{min-height:100vh;background:#171512;color:#fff;padding:5vw;display:flex;flex-direction:column;justify-content:center}.screen h1{font-size:4.4vw}.screenrow{display:flex;justify-content:space-between;border-bottom:1px solid #ffffff22;padding:1vw 0;font-size:1.6vw}
 .bar{height:7px;background:#eee4d8;border-radius:10px;overflow:hidden}.bar i{display:block;height:100%;background:var(--g)}.ey{font-size:10px;letter-spacing:.16em;font-weight:900;text-transform:uppercase;color:var(--m)}
@@ -99,6 +99,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
 <section id="home" class="hidden">
   <h1>Hola, <span id="gn">Invitado</span> 👋</h1><p class="lead">Mesa <b id="ht">—</b></p>
   <div id="nowPlaying" class="feature hidden"></div>
+  <div id="eventNow" class="card event-now hidden"></div>
   <div class="card"><div class="row"><div><div class="ey">Tu mesa</div><h2 id="hr">#—</h2></div><div style="text-align:right"><div id="rtn" class="small">—</div><b><span id="hp">0</span> pts</b></div></div></div>
   <div class="grid" style="margin-top:12px">
     <button class="tile" onclick="show('trivia')"><span>🧠</span><b>TRIVIA</b></button>
@@ -110,16 +111,16 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
   </div>
 </section>
 
-<section id="trivia" class="hidden"><div class="head"><button class="back" onclick="show('home')">←</button><h1>Trivia</h1></div><div id="tb"></div></section>
+<section id="trivia" class="hidden"><div class="head"><button class="back-home" onclick="show('home')">← Inicio</button><h1>Trivia</h1></div><div id="tb"></div></section>
 
 <section id="mission" class="hidden">
-  <div class="head"><button class="back" onclick="show('home')">←</button><h1>Misiones</h1></div>
+  <div class="head"><button class="back-home" onclick="show('home')">← Inicio</button><h1>Misiones</h1></div>
   <div id="missionBody"></div>
   <input id="missionFile" type="file" accept="image/*" class="hidden" onchange="missionFileChosen(event)">
 </section>
 
 <section id="photos" class="hidden">
-  <div class="head"><button class="back" onclick="show('home')">←</button><h1>Fotos</h1></div>
+  <div class="head"><button class="back-home" onclick="show('home')">← Inicio</button><h1>Fotos</h1></div>
   <div class="card">
     <div class="ey">El álbum de la noche</div>
     <h2>Subí las que valen la pena.</h2>
@@ -133,15 +134,15 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
   </div>
 </section>
 
-<section id="ranking" class="hidden"><div class="head"><button class="back" onclick="show('home')">←</button><h1>Copa de las mesas</h1></div><div id="scores" class="card"></div></section>
+<section id="ranking" class="hidden"><div class="head"><button class="back-home" onclick="show('home')">← Inicio</button><h1>Copa de las mesas</h1></div><div id="scores" class="card"></div></section>
 
 <section id="signatures" class="hidden">
-  <div class="head"><button class="back" onclick="show('home')">←</button><h1>Libro de Firmas</h1></div>
+  <div class="head"><button class="back-home" onclick="show('home')">← Inicio</button><h1>Libro de Firmas</h1></div>
   <div class="card"><div class="ey">Un recuerdo para siempre</div><h2>No te hagas el moderno tampoco 😏</h2><p>Nos tomamos el laburo de mandar a hacer un <b>Libro de Firmas</b> para que nos dejes un mensaje de <b>puño y letra</b>.</p><p>Queremos un recuerdo para la posteridad. <b>Porfa, acercate al módulo del Libro de Firmas y dejános unas palabras. ❤️</b></p><img class="module-img book-img" src="/libro.jpg" alt="Libro de Firmas de Migue y Sebas"><p class="small" style="text-align:center">Sí: esta vez queremos tinta, papel y letra real.</p></div>
 </section>
 
 <section id="music" class="hidden">
-  <div class="head"><button class="back" onclick="show('home')">←</button><h1>Música</h1></div>
+  <div class="head"><button class="back-home" onclick="show('home')">← Inicio</button><h1>Música</h1></div>
   <div class="card"><div class="ey">La banda sonora de esta noche</div><h2>¿Quedaste sorprendido con los hitazos que escuchaste esta noche?</h2><p class="lead">Desde acá podés revivir estos temazos cuando te agarre nostalgia y pienses en <b>lo bien que la pasaste hoy.</b></p>
     <a class="music" href="https://open.spotify.com/playlist/7Li6D8DO3ldfQE18VMMM5E" target="_blank"><b>🍽️ Boda Cena</b><div class="small">Abrir en Spotify ↗</div></a>
     <a class="music" href="https://open.spotify.com/playlist/4gOJUa0sN4hXzCvQyk3Nue" target="_blank"><b>🪩 Boda Fiesta</b><div class="small">Abrir en Spotify ↗</div></a>
@@ -150,7 +151,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
 </section>
 
 <section id="dj" class="hidden">
-  <div class="head"><button class="back" onclick="show('music')">←</button><h1>Pedile un tema al DJ</h1></div>
+  <div class="head"><button class="back-home" onclick="show('home')">← Inicio</button><h1>Pedile un tema al DJ</h1></div>
   <div class="card"><div class="ey">Solicitud recibida</div><h2>Nuestro DJ va a anotar tu pedido con toda la seriedad que merece.</h2><img class="module-img dj-img" src="/dj.jpg" alt="Muy interesante, lo anotaré en mi máquina de escribir invisible"><p class="small" style="text-align:center">Gracias por tu aporte a la programación musical. 😌</p></div>
 </section>
 
@@ -197,13 +198,10 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
       <div class="ey">Pantalla del salón</div>
       <h2>Control de pantalla</h2>
       <div class="screen-controls">
-        <button id="sm-auto" class="screen-mode-btn" onclick="screenAdminAction('auto')">AUTO</button>
-        <button id="sm-ranking" class="screen-mode-btn" onclick="screenAdminAction('ranking')">RANKING</button>
-        <button id="sm-mission" class="screen-mode-btn" onclick="screenAdminAction('mission')">MISIÓN</button>
-        <button id="sm-photos" class="screen-mode-btn" onclick="screenAdminAction('photos')">FOTOS</button>
-        <button id="sm-trivia" class="screen-mode-btn" onclick="screenAdminAction('trivia')">ÚLTIMA TRIVIA</button>
+        <button id="sm-auto" class="screen-mode-btn" onclick="screenAdminAction('auto')">✨ AUTO</button>
+        <button id="sm-photos" class="screen-mode-btn" onclick="screenAdminAction('photos')">📸 FORZAR FOTOS</button>
       </div>
-      <div class="screen-mode-help"><b>El ranking queda siempre visible a la derecha.</b> AUTO prioriza la Trivia activa; al revelar, mantiene el resultado hasta que finalices la pregunta. “Última Trivia” recupera el último resultado cuando quieras.</div>
+      <div class="screen-mode-help"><b>El ranking queda siempre visible a la derecha.</b> AUTO hace todo solo: Trivia tiene prioridad; si hay una misión activa alterna la misión con fotos; si no, muestra fotos. “Forzar Fotos” sirve para dejar sólo el carrusel, excepto durante una Trivia.</div>
       <h2 style="margin-bottom:4px">Vista previa</h2>
       <div id="admScreenPreview"></div>
       <a class="btn secondary" style="display:block;text-align:center;text-decoration:none;margin-top:10px" href="/screen" target="_blank">ABRIR /SCREEN ↗</a>
@@ -226,12 +224,7 @@ button,input{font:inherit}button{cursor:pointer}.s{max-width:500px;margin:auto;m
 </section>
 </main>
 
-<nav id="nav" class="bottom hidden">
-  <button onclick="show('home')"><span>⌂</span>INICIO</button>
-  <button onclick="show('trivia')"><span>🧠</span>TRIVIA</button>
-  <button onclick="show('ranking')"><span>🏆</span>RANKING</button>
-  <button onclick="show('mission')"><span>📸</span>MISIONES</button>
-</nav>
+<nav id="nav" class="hidden"></nav>
 <div id="toast" class="toast hidden"></div>
 <section id="screen" class="screen hidden"><div id="sb"></div></section>
 
@@ -251,7 +244,7 @@ function gid(){return localStorage.getItem('gid')}
 function sec(){return localStorage.getItem('gsec')}
 function show(id){
   ['join','home','trivia','mission','photos','ranking','signatures','music','dj','admin'].forEach(x=>$(x).classList.toggle('hidden',x!==id));
-  $('nav').classList.toggle('hidden',id==='join'||id==='admin');
+  $('nav').classList.add('hidden');
   if(id==='trivia')renderTrivia();
   if(id==='ranking')renderRank();
   if(id==='mission')loadMission();
@@ -312,7 +305,35 @@ async function loadTrivia(){
 }
 async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia(),loadScreenMission(),loadScreenControl(),loadWeddingPhotos()])}
 
+function chileClock(){
+  const f=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Santiago',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
+  const o={};f.formatToParts(new Date()).forEach(x=>{if(x.type!=='literal')o[x.type]=x.value});
+  return {date:`${o.year}-${o.month}-${o.day}`,minutes:Number(o.hour)*60+Number(o.minute)}
+}
+function weddingMoment(){
+  const c=chileClock(),m=c.minutes;
+  if(c.date==='2026-09-25'){
+    if(m>=21*60&&m<22*60+30)return {icon:'🍽️',title:'Cena Juiciosa',next:'Próximo · Fiesta y Barra Libre! · 22:30'};
+    if(m>=22*60+30)return {icon:'🍸',title:'Fiesta y Barra Libre!',next:'Próximo · Hora Loca / Carnaval Carioca · 01:00'};
+  }
+  if(c.date==='2026-09-26'){
+    if(m<60)return {icon:'🍸',title:'Fiesta y Barra Libre!',next:'Próximo · Hora Loca / Carnaval Carioca · 01:00'};
+    if(m>=60&&m<120)return {icon:'🎉',title:'Hora Loca / Carnaval Carioca',next:'Próximo · Seguimos con la Fiesta! · 02:00'};
+    if(m>=120&&m<240)return {icon:'🪩',title:'Seguimos con la Fiesta!',next:'Hasta las 04:00',late:m>=205};
+  }
+  return null
+}
+function renderWeddingMoment(){
+  const e=$('eventNow');if(!e)return;
+  const w=weddingMoment();
+  if(!w){e.classList.add('hidden');e.innerHTML='';return}
+  e.innerHTML=`<div class="ey">Ahora</div><h2>${w.icon} ${esc(w.title)}</h2><div class="event-next">${esc(w.next)}</div>${w.late?'<div class="event-alert">⚠️ <b>Último llamado:</b> 03:30 cierra la barra · 04:00 nos desalojan.</div>':''}`;
+  e.classList.remove('hidden');
+  if(w.late&&!sessionStorage.getItem('late_notice_20260926')){sessionStorage.setItem('late_notice_20260926','1');setTimeout(()=>toast('⚠️ 03:30 cierra la barra · 04:00 nos desalojan'),300)}
+}
+
 function renderHome(){
+  renderWeddingMoment();
   let tid=localStorage.getItem('tid'),own=board.find(x=>x.id===tid),i=board.findIndex(x=>x.id===tid);
   $('gn').textContent=localStorage.getItem('gname')||'Invitado';$('ht').textContent=own?.name||localStorage.getItem('tname')||'—';
   $('rtn').textContent=own?.name||'—';$('hp').textContent=own?.points||0;$('hr').textContent=i>=0?'#'+(i+1):'#—';
@@ -702,8 +723,8 @@ async function deleteAllWeddingPhotosAdmin(){
 }
 
 function renderScreenControls(){
-  const mode=screenControl?.mode||'auto';
-  ['auto','ranking','mission','photos','trivia'].forEach(m=>{const e=$('sm-'+m);if(e)e.classList.toggle('active',m===mode)})
+  const mode=(screenControl?.mode==='photos')?'photos':'auto';
+  ['auto','photos'].forEach(m=>{const e=$('sm-'+m);if(e)e.classList.toggle('active',m===mode)})
 }
 async function screenAdminAction(mode){
   const {error}=await db.rpc('admin_screen_action',{p_admin_key:sessionStorage.getItem('ak'),p_mode:mode});
@@ -711,34 +732,38 @@ async function screenAdminAction(mode){
     if(mode==='photos'&&/trivia active/i.test(error.message||''))return toast('Con Trivia activa no mostramos fotos');
     return toast('No pudimos cambiar la pantalla')
   }
-  await loadScreenControl();toast('Pantalla: '+mode.toUpperCase())
+  await loadScreenControl();toast(mode==='auto'?'Pantalla en AUTO':'Fotos forzadas')
+}
+function allScreenPhotos(){
+  const album=(screenControl?.wedding_gallery||[]).map(p=>({...p,source:'album'}));
+  const missions=(screenControl?.gallery||[]).map(p=>({...p,source:'mission'}));
+  return album.concat(missions).sort((a,b)=>String(b.reviewed_at||'').localeCompare(String(a.reviewed_at||'')))
 }
 function effectiveScreenMode(){
-  const manual=screenControl?.mode||'auto';
+  const manual=(screenControl?.mode==='photos')?'photos':'auto';
   const triviaMode=live.status==='open'?'trivia-open':live.status==='closed'?'trivia-closed':live.status==='reveal'?'trivia-reveal':null;
-  if(triviaMode&&(manual==='auto'||manual==='photos'))return triviaMode;
-  if(manual==='trivia')return screenControl?.last_trivia?'trivia-last':'ranking';
-  if(manual!=='auto')return manual;
   if(triviaMode)return triviaMode;
+  if(manual==='photos')return 'photos';
+  const photos=allScreenPhotos();
   if(screenMission?.status==='active'){
-    if(screenAutoPhoto&&(screenMission.photos||[]).length)return 'mission-photo';
+    if(screenAutoPhoto&&photos.length)return 'photos';
     return 'mission';
   }
-  if((screenControl?.wedding_gallery||[]).length&&screenAutoAlbum)return 'photos';
-  return 'ranking'
+  if(photos.length)return 'photos';
+  return 'standby'
 }
 function renderAdminScreenPreview(){
   if(!$('admScreenPreview'))return;
   renderScreenControls();
-  const mode=effectiveScreenMode(),manual=screenControl?.mode||'auto';
-  const tag=manual==='auto'?'AUTO':'FORZADO · '+manual.toUpperCase();
-  let title='🏆 Ranking en vivo',detail='Copa de las mesas';
+  const mode=effectiveScreenMode(),manual=(screenControl?.mode==='photos')?'photos':'auto';
+  const tag=manual==='auto'?'AUTO':'FORZADO · FOTOS';
+  const photoCount=allScreenPhotos().length;
+  let title='✨ Pantalla en espera',detail='El ranking sigue visible a la derecha';
   if(mode==='trivia-open') {title=`🧠 Trivia · Pregunta ${live.display_order||''}`;detail=`${live.response_count||0}/${live.total_expected||0} respuestas recibidas`}
   else if(mode==='trivia-closed'){title='🔒 Respuestas cerradas';detail=`Pregunta ${live.display_order||''} · esperando revelar`}
   else if(mode==='trivia-reveal'){title='✨ Resultado de Trivia';detail='Permanece visible hasta que finalices la pregunta'}
-  else if(mode==='trivia-last'){title='✨ Último resultado de Trivia';detail=`Pregunta ${screenControl?.last_trivia?.display_order||''} · mostrado manualmente`}
-  else if(mode==='mission'||mode==='mission-photo'){title=`📸 ${screenMission?.title||'Misión activa'}`;detail=`${screenMission?.approved_count||0}/${screenMission?.total_tables||0} mesas aprobadas · ${(screenMission?.photos||[]).length} fotos`}
-  else if(mode==='photos'){title='🖼️ Carrusel de fotos';detail=`${(screenControl?.wedding_gallery||[]).length} fotos aprobadas del álbum`}
+  else if(mode==='mission'){title=`📸 ${screenMission?.title||'Misión activa'}`;detail=`${screenMission?.approved_count||0}/${screenMission?.total_tables||0} mesas aprobadas · alterna con fotos`}
+  else if(mode==='photos'){title='🖼️ Carrusel de fotos';detail=`${photoCount} fotos aprobadas · álbum + misiones`}
   $('admScreenPreview').innerHTML=`<div class="admin-screen-preview"><div class="ey" style="color:#d3b075">EN PANTALLA · ${tag}</div><b>${esc(title)}</b><div class="small">${esc(detail)}</div></div>`
 }
 async function missionAdminAction(action,missionId=null,submissionId=null){
@@ -767,17 +792,23 @@ function renderRankingStage(){
   return stageShell(`<div class="screen-kicker">🏆 COPA DE LAS MESAS</div><h1 class="screen-title">Ranking en vivo</h1><div class="rank-podium">${card(top[1],2)}${card(top[0],1,'first')}${card(top[2],3)}</div><div class="rank-rest">${rest.map((r,i)=>`<div class="rank-row"><span>${i+4}. ${esc(r.name)}</span><b>${r.points} pts</b></div>`).join('')}</div>`)
 }
 function renderMissionStage(photoOnly=false){
-  if(screenMission?.status!=='active')return renderRankingStage();
+  if(screenMission?.status!=='active')return renderStandbyStage();
   const photos=screenMission.photos||[],photo=photos.length?photos[screenPhotoIndex%photos.length]:null,done=screenMission.approved_count||0,total=screenMission.total_tables||0,pct=total?Math.min(100,done/total*100):0;
   if(photoOnly&&photo){
     return `<div class="stage gallery-stage screen-fade"><div class="stage-top"><div class="stage-brand">MIGUE & SEBAS</div><div class="stage-date">MISIÓN ${screenMission.display_order}/5</div></div><img class="gallery-photo" src="${missionPhotoUrl(photo.photo_path)}" alt="Foto aprobada"><div class="gallery-overlay"><div><div class="screen-kicker">📸 MISIÓN CUMPLIDA</div><h2>${esc(photo.table_name)}</h2><div class="meta">${esc(screenMission.title)} · +${screenMission.points} pts</div></div><div class="gallery-count">${(screenPhotoIndex%photos.length)+1} / ${photos.length}</div></div></div>`
   }
   return stageShell(`<div class="mission-stage"><div class="mission-copy"><div class="screen-kicker">📸 MISIÓN ACTIVA · ${screenMission.display_order}/5 · +${screenMission.points} PTS</div><h1 class="screen-title">${esc(screenMission.title)}</h1><p class="screen-subtitle">${esc(screenMission.description)}</p><div class="mission-stats"><div class="mission-stat"><b>${done}/${total}</b><span>mesas aprobadas</span></div><div class="mission-stat"><b>${screenMission.pending_count||0}</b><span>esperando aprobación</span></div></div><div class="mission-progress-v2"><i style="width:${pct}%"></i></div></div><div class="mission-photo-wrap">${photo?`<img class="mission-photo-big" src="${missionPhotoUrl(photo.photo_path)}" alt="Foto aprobada"><div class="mission-photo-meta"><span>✅ ${esc(photo.table_name)}</span><span>${(screenPhotoIndex%photos.length)+1}/${photos.length}</span></div>`:`<div class="mission-photo-big" style="display:grid;place-items:center;color:#d6cec6;font-size:1.6vw">Esperando las primeras fotos aprobadas…</div>`}</div></div>`)
 }
+function renderStandbyStage(){
+  return stageShell('<div class="lock-wrap"><div class="lock-icon">✨</div><div class="screen-kicker">MIGUE & SEBAS · 25 · 09 · 26</div><h1 class="screen-title">La noche sigue</h1><p class="screen-subtitle">Las fotos y desafíos van apareciendo acá.</p></div>')
+}
 function renderGalleryStage(){
-  const photos=screenControl?.wedding_gallery||[];if(!photos.length)return stageShell('<div class="lock-wrap"><div class="lock-icon">📷</div><h1 class="screen-title">Todavía no hay fotos aprobadas</h1><p class="screen-subtitle">Cuando empiecen a subirlas, van a aparecer acá.</p></div>');
+  const photos=allScreenPhotos();if(!photos.length)return renderStandbyStage();
   const p=photos[galleryPhotoIndex%photos.length];
-  return `<div class="stage gallery-stage screen-fade"><div class="stage-top"><div class="stage-brand">MIGUE & SEBAS</div><div class="stage-date">FOTOS DE LA NOCHE</div></div><img class="gallery-photo" src="${weddingPhotoUrl(p.photo_path)}" alt="Foto aprobada"><div class="gallery-overlay"><div><div class="screen-kicker">📸 FOTOS DE LA NOCHE</div><h2>${esc(p.table_name)}</h2><div class="meta">Subió ${esc(p.guest_name)}</div></div><div class="gallery-count">${(galleryPhotoIndex%photos.length)+1} / ${photos.length}</div></div></div>`
+  const url=p.source==='mission'?missionPhotoUrl(p.photo_path):weddingPhotoUrl(p.photo_path);
+  const kicker=p.source==='mission'?'📸 MISIÓN CUMPLIDA':'📸 FOTOS DE LA NOCHE';
+  const meta=p.source==='mission'?esc(p.mission_title||'Foto de misión'):`Subió ${esc(p.guest_name||'un invitado')}`;
+  return `<div class="stage gallery-stage screen-fade"><div class="stage-top"><div class="stage-brand">MIGUE & SEBAS</div><div class="stage-date">FOTOS DE LA NOCHE</div></div><img class="gallery-photo" src="${url}" alt="Foto aprobada"><div class="gallery-overlay"><div><div class="screen-kicker">${kicker}</div><h2>${esc(p.table_name)}</h2><div class="meta">${meta}</div></div><div class="gallery-count">${(galleryPhotoIndex%photos.length)+1} / ${photos.length}</div></div></div>`
 }
 function renderRankingRail(){
   const rows=(board||[]).slice().sort((a,b)=>(b.points||0)-(a.points||0));
@@ -786,7 +817,7 @@ function renderRankingRail(){
 }
 function screenFrame(content){return `<div class="screen-shell"><div class="screen-main">${content}</div>${renderRankingRail()}</div>`}
 function renderTriviaResultStage(t,last=false){
-  if(!t)return renderRankingStage();
+  if(!t)return renderStandbyStage();
   const c=t.option_counts||{},tot=Math.max(t.response_count||0,1);
   return stageShell(`<div class="result-grid"><div><div class="screen-kicker">✨ ${last?'ÚLTIMO RESULTADO':'RESULTADO'} · PREGUNTA ${t.display_order}</div><h1 class="screen-title" style="font-size:3.05vw">${esc(t.question)}</h1><div class="result-options" style="margin-top:2.5vh">${(t.options||[]).map(o=>`<div class="result-option ${o.key===t.correct_option?'correct':''}"><b>${esc(o.key)}</b><span>${esc(o.label)}</span><b>${Math.round((c[o.key]||0)/tot*100)}%</b></div>`).join('')}</div></div><div><div class="result-stat">${t.correct_count||0}<small>respuestas correctas</small></div><div class="result-stat" style="margin-top:3vh">+${(t.correct_count||0)*10}<small>puntos repartidos</small></div>${t.reveal_text?`<p class="screen-subtitle" style="font-size:1vw">${esc(t.reveal_text)}</p>`:''}</div></div>`);
 }
@@ -794,9 +825,7 @@ function renderScreen(){
   if(!$('sb'))return;
   const mode=effectiveScreenMode();
   let content='';
-  if(mode==='ranking')content=renderRankingStage();
-  else if(mode==='mission')content=renderMissionStage(false);
-  else if(mode==='mission-photo')content=renderMissionStage(true);
+  if(mode==='mission')content=renderMissionStage(false);
   else if(mode==='photos')content=renderGalleryStage();
   else if(mode==='trivia-open'){
     const pct=(live.total_expected||0)?Math.min(100,(live.response_count||0)/(live.total_expected||1)*100):0;
@@ -806,8 +835,7 @@ function renderScreen(){
     content=stageShell(`<div class="lock-wrap"><div class="lock-icon">🔒</div><div class="screen-kicker">PREGUNTA ${live.display_order}/${live.total_questions}</div><h1 class="screen-title">Respuestas cerradas</h1><p class="screen-subtitle">${esc(live.question)}</p><p class="screen-subtitle"><b style="color:#fff">${live.response_count||0}</b> respuestas registradas · Esperando el resultado…</p></div>`);
   }
   else if(mode==='trivia-reveal')content=renderTriviaResultStage(live,false);
-  else if(mode==='trivia-last')content=renderTriviaResultStage(screenControl?.last_trivia,true);
-  else content=renderRankingStage();
+  else content=renderStandbyStage();
   $('sb').innerHTML=screenFrame(content);
 }
 function sub(){
@@ -823,7 +851,7 @@ async function boot(){
   let p=location.pathname;
   if(p==='/screen'||p==='/screen/'){
     $('app').classList.add('hidden');$('nav').classList.add('hidden');$('screen').classList.remove('hidden');await load();sub();
-    screenCarousel=setInterval(()=>{const mn=(screenMission.photos||[]).length,gn=(screenControl.wedding_gallery||[]).length;if(mn>1)screenPhotoIndex=(screenPhotoIndex+1)%mn;if(gn>1)galleryPhotoIndex=(galleryPhotoIndex+1)%gn;const triviaOn=['open','closed','reveal'].includes(live.status);if((screenControl.mode||'auto')==='auto'&&!triviaOn&&screenMission?.status==='active'&&mn)screenAutoPhoto=!screenAutoPhoto;if((screenControl.mode||'auto')==='auto'&&!triviaOn&&screenMission?.status!=='active'&&gn)screenAutoAlbum=!screenAutoAlbum;renderScreen()},8000);
+    screenCarousel=setInterval(()=>{const photos=allScreenPhotos(),gn=photos.length;if(gn>1)galleryPhotoIndex=(galleryPhotoIndex+1)%gn;const triviaOn=['open','closed','reveal'].includes(live.status),auto=(screenControl.mode||'auto')!=='photos';if(auto&&!triviaOn&&screenMission?.status==='active'&&gn)screenAutoPhoto=!screenAutoPhoto;else if(screenMission?.status!=='active'||!gn)screenAutoPhoto=false;renderScreen()},8000);
     return
   }
   if(p==='/admin'||p==='/admin/'||p==='/control'||p==='/control/'){
@@ -832,7 +860,7 @@ async function boot(){
   if(p==='/firmas'||p==='/firmas/'){await load();sub();show('signatures');return}
   if(p==='/musica'||p==='/musica/'){await load();sub();show('music');return}
   if(p==='/pedile-un-tema'||p==='/pedile-un-tema/'){await load();sub();show('dj');return}
-  $('jt').textContent=tm[code()]||'tu mesa';await load();sub();show(gid()&&sec()?'home':'join')
+  $('jt').textContent=tm[code()]||'tu mesa';await load();sub();show(gid()&&sec()?'home':'join');setInterval(()=>{if(!$('home').classList.contains('hidden'))renderHome()},30000)
 }
 boot();
 </script>
