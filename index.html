@@ -334,7 +334,12 @@ async function loadTrivia(){
   }
   renderTrivia();renderHome();renderScreen();renderAdmin()
 }
-async function load(){await Promise.all([loadTables(),loadMission(),loadTrivia(),loadScreenMission(),loadScreenControl(),loadWeddingPhotos()])}
+async function load(){
+  const p=location.pathname;
+  if(p==='/screen'||p==='/screen/')return Promise.all([loadTables(),loadTrivia(),loadScreenMission(),loadScreenControl()]);
+  if(p==='/admin'||p==='/admin/'||p==='/control'||p==='/control/')return Promise.all([loadTables(),loadTrivia(),loadScreenMission(),loadScreenControl()]);
+  return Promise.all([loadTables(),loadMission(),loadTrivia()]);
+}
 
 function chileClock(){
   const f=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Santiago',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
@@ -512,7 +517,7 @@ function renderWeddingPhotos(){
   }
   if(gal){
     if(!photoGallery.length){gal.innerHTML='<p class="lead">Todavía no hay fotos aprobadas. Alguien tiene que romper el hielo.</p>';return}
-    gal.innerHTML=`<div class="photo-grid">${photoGallery.map(p=>`<div class="photo-card"><img src="${weddingPhotoUrl(p.photo_path)}" alt="Foto de ${esc(p.guest_name)}"><div class="photo-meta"><b>${esc(p.table_name)}</b><span>Subió ${esc(p.guest_name)}</span></div></div>`).join('')}</div>`;
+    gal.innerHTML=`<div class="photo-grid">${photoGallery.map(p=>`<div class="photo-card"><img loading="lazy" decoding="async" src="${weddingPhotoUrl(p.photo_path)}" alt="Foto de ${esc(p.guest_name)}"><div class="photo-meta"><b>${esc(p.table_name)}</b><span>Subió ${esc(p.guest_name)}</span></div></div>`).join('')}</div>`;
   }
 }
 function weddingPhotoFileChosen(ev){
@@ -685,7 +690,7 @@ function renderMissionAdmin(){
         ${badge}
       </div>
       <div class="mission-progress"><i style="width:${total?Math.min(100,done/total*100):0}%"></i></div>
-      ${isActive?`<button class="btn" style="margin-top:8px" onclick="missionAdminAction('finalize',${m.id})">✓ FINALIZAR MISIÓN</button>`:''}
+      ${isActive?(pend?`<button class="btn" style="margin-top:8px;opacity:.55" disabled>⏳ ${pend} FOTO${pend===1?'':'S'} PENDIENTE${pend===1?'':'S'}</button><div class="small" style="margin-top:6px">Aprobá o rechazá ${pend===1?'la foto pendiente':'las fotos pendientes'} antes de finalizar la misión.</div>`:`<button class="btn" style="margin-top:8px" onclick="missionAdminAction('finalize',${m.id})">✓ FINALIZAR MISIÓN</button>`):''}
       ${canActivate?`<button class="btn" style="margin-top:8px" onclick="missionAdminAction('activate',${m.id})">ACTIVAR MISIÓN</button>`:''}
       ${canReopen?`<button class="reopen-btn" onclick="missionAdminAction('reopen',${m.id})">↩ Reabrir</button>`:''}
     </div>`
@@ -941,12 +946,36 @@ function renderScreen(){
   $('sb').innerHTML=screenFrame(content);
 }
 function sub(){
+  const p=location.pathname;
+  const isScreen=p==='/screen'||p==='/screen/';
+  const isAdmin=p==='/admin'||p==='/admin/'||p==='/control'||p==='/control/';
   chs=[
-    db.channel('t').on('postgres_changes',{event:'UPDATE',schema:'public',table:'wedding_tables'},async()=>{await loadTables();await loadMission();await loadScreenMission()}).subscribe(),
-    db.channel('e').on('postgres_changes',{event:'UPDATE',schema:'public',table:'event_state',filter:'id=eq.1'},async()=>{await loadTrivia();await loadMission();await loadScreenMission();await loadScreenControl();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe(),
-    db.channel('a').on('postgres_changes',{event:'INSERT',schema:'public',table:'trivia_answers'},loadTrivia).subscribe(),
-    db.channel('ms').on('postgres_changes',{event:'*',schema:'public',table:'mission_submissions'},async()=>{await loadMission();await loadScreenMission();await loadScreenControl();await loadTables();if(sessionStorage.getItem('ak'))await adminRefresh()}).subscribe(),
-    db.channel('wp').on('postgres_changes',{event:'*',schema:'public',table:'wedding_photos'},async()=>{await loadWeddingPhotos();await loadScreenControl();if(sessionStorage.getItem('ak'))await adminRefresh({silent:true})}).subscribe()
+    // Canal 1: ranking/puntajes. Sólo refresca lo que cada vista necesita.
+    db.channel('t').on('postgres_changes',{event:'UPDATE',schema:'public',table:'wedding_tables'},async()=>{
+      await loadTables();
+    }).subscribe(),
+    // Canal 2: estado general. Event_state es el heartbeat de Trivia, Misiones y Fotos.
+    db.channel('e').on('postgres_changes',{event:'UPDATE',schema:'public',table:'event_state',filter:'id=eq.1'},async(payload)=>{
+      const triviaActive=['open','closed','reveal'].includes(payload?.new?.trivia_status);
+      if(isScreen){
+        // Durante Trivia sólo hace falta actualizar respuestas/estado de Trivia.
+        if(triviaActive)await loadTrivia();
+        else await Promise.all([loadTrivia(),loadScreenMission(),loadScreenControl()]);
+        return;
+      }
+      if(isAdmin){
+        // El contador activo usa live; el resto del panel ya tiene polling cada 8 s.
+        await loadTrivia();
+        if(!triviaActive)await Promise.all([loadScreenMission(),loadScreenControl()]);
+        if(!triviaActive&&sessionStorage.getItem('ak'))await adminRefresh({silent:true});
+        return;
+      }
+      // Participante: durante Trivia no descarga datos de Screen/Misiones que no necesita.
+      if(triviaActive)await loadTrivia();
+      else await Promise.all([loadTrivia(),loadMission()]);
+      // Galería completa sólo si el usuario está realmente dentro de Fotos.
+      if($('photos')&&!$('photos').classList.contains('hidden'))await loadWeddingPhotos();
+    }).subscribe()
   ]
 }
 async function boot(){
